@@ -1,0 +1,12 @@
+* Patches:
+  * fancybar
+  * pango
+  * pertag
+  * xtile
+  * stacker
+  * focusadjacenttag
+  * systray
+  * runorraise
+  * maximize
+  * exresize
+  * moveresize
