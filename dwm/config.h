@@ -113,8 +113,8 @@ static Key keys[] = {
         { MODKEY4,                       XK_n,            setlayout,        {.v = &layouts[2]} },
         { MODKEY4,                       XK_i,            incnmaster,       {.i = +1 } },
         { MODKEY4,                       XK_o,            incnmaster,       {.i = -1 } },
-        { MODKEY4,                       XK_comma,        setdirs,          {.v = (int[]){ DirHor, DirVer, DirVer } } },
-        { MODKEY4,                       XK_period,       setdirs,          {.v = (int[]){ DirVer, DirHor, DirHor } } },
+        { MODKEY4,                       XK_backslash,    setdirs,          {.v = (int[]){ DirHor, DirVer, DirVer } } },
+        { MODKEY4|ShiftMask,             XK_backslash,    setdirs,          {.v = (int[]){ DirVer, DirHor, DirHor } } },
         /* Cmd. */
         { MODKEY4,                       XK_s,            spawn,            {.v = slockcmd } },
         { MODKEY4,                       XK_Return,       spawn,            {.v = termcmd } },
@@ -148,12 +148,12 @@ static Key keys[] = {
         TAGKEYS(                         XK_9,            1)
         TAGKEYS(                         XK_0,            2)
         /* MPD setup. */
-        { MODKEY4,                       XK_backslash,    spawn,            {.v = mpdtogglecmd } },
-        { MODKEY4,                       XK_bracketleft,  spawn,            {.v = mpdseekminuscmd } },
-        { MODKEY4,                       XK_bracketright, spawn,            {.v = mpdseekpluscmd } },
-        { MODKEY4|ShiftMask,             XK_backslash,    spawn,            {.v = mpdstopcmd } },
-        { MODKEY4|ShiftMask,             XK_bracketleft,  spawn,            {.v = mpdprevcmd } },
-        { MODKEY4|ShiftMask,             XK_bracketright, spawn,            {.v = mpdnextcmd } },
+        { MODKEY4,                       XK_slash,        spawn,            {.v = mpdtogglecmd } },
+        { MODKEY4,                       XK_comma,        spawn,            {.v = mpdseekminuscmd } },
+        { MODKEY4,                       XK_period,       spawn,            {.v = mpdseekpluscmd } },
+        { MODKEY4|ShiftMask,             XK_slash,        spawn,            {.v = mpdstopcmd } },
+        { MODKEY4|ShiftMask,             XK_comma,        spawn,             {.v = mpdprevcmd } },
+        { MODKEY4|ShiftMask,             XK_period,       spawn,            {.v = mpdnextcmd } },
         { MODKEY4,                       XK_equal,        spawn,            {.v = mpdvolupcmd } },
         { MODKEY4,                       XK_minus,        spawn,            {.v = mpdvoldowncmd } },
         /* Maximize. */
@@ -164,8 +164,8 @@ static Key keys[] = {
         { MODKEY1,                       XK_bracketright, exresize,         {.v = (int []){  50,   0 }}},
         { MODKEY1|ShiftMask,             XK_bracketleft,  exresize,         {.v = (int []){   0, -50 }}},
         { MODKEY1|ShiftMask,             XK_bracketright, exresize,         {.v = (int []){   0,  50 }}},
-        /* { MODKEY1|MODKEY4|ShiftMask,             XK_5,   exresize,               {.v = (int []){  25,  25 }}}, */
-        /* { MODKEY1|MODKEY4|ShiftMask|ControlMask, XK_5,   exresize,               {.v = (int []){ -25, -25 }}}, */
+        { MODKEY4,                       XK_bracketleft,  exresize,         {.v = (int []){ -25, -25 }}},
+        { MODKEY4,                       XK_bracketright, exresize,         {.v = (int []){  25,  25 }}},
         { MODKEY4,                       XK_k,            explace,          {.ui = EX_N  }},
         { MODKEY4,                       XK_j,            explace,          {.ui = EX_S  }},
         { MODKEY4,                       XK_h,            explace,          {.ui = EX_W  }},
@@ -176,15 +176,15 @@ static Key keys[] = {
         { MODKEY4|ShiftMask,             XK_l,            explace,          {.ui = EX_NE }},
         /* { MODKEY1|MODKEY4,                       XK_5,   explace,                {.ui = EX_C  }}, */
         /* exresize里的maximize功能不好，在exresize.c中注释掉。 */
-        /* { MODKEY1|MODKEY4|ControlMask,      XK_1,              togglehorizontalexpand, {.i = +1} }, */
-        /* { MODKEY1|MODKEY4|ControlMask,      XK_comma,          togglehorizontalexpand, {.i =  0} }, */
-        /* { MODKEY1|MODKEY4|ControlMask,      XK_2,              togglehorizontalexpand, {.i = -1} }, */
-        /* { MODKEY1|MODKEY4|ControlMask,      XK_3,              toggleverticalexpand,   {.i = +1} }, */
-        /* { MODKEY1|MODKEY4|ControlMask,      XK_period,         toggleverticalexpand,   {.i =  0} }, */
-        /* { MODKEY1|MODKEY4|ControlMask,      XK_4,              toggleverticalexpand,   {.i = -1} }, */
-        /* { MODKEY1|MODKEY4|ControlMask,      XK_9,              togglemaximize,         {.i = -1} }, */
-        /* { MODKEY1|MODKEY4|ControlMask,      XK_7,              togglemaximize,         {.i = +1} }, */
-        /* { MODKEY1|MODKEY4|ControlMask,      XK_5,              togglemaximize,         {.i =  0} }, */
+        /* { MODKEY4,      XK_,              togglehorizontalexpand, {.i = +1} }, */
+        /* { MODKEY4,      XK_,              togglehorizontalexpand, {.i =  0} }, */
+        /* { MODKEY4,      XK_,              togglehorizontalexpand, {.i = -1} }, */
+        /* { MODKEY4,      XK_,              toggleverticalexpand,   {.i = +1} }, */
+        /* { MODKEY4,      XK_,              toggleverticalexpand,   {.i =  0} }, */
+        /* { MODKEY4,      XK_,              toggleverticalexpand,   {.i = -1} }, */
+        /* { MODKEY4,      XK_,              togglemaximize,         {.i = -1} }, */
+        /* { MODKEY4,      XK_,              togglemaximize,         {.i = +1} }, */
+        /* { MODKEY4,      XK_,              togglemaximize,         {.i =  0} }, */
 };
 
 /* button definitions */
