@@ -140,10 +140,10 @@ static Key keys[] = {
         /* { MODKEY4|ShiftMask,             XK_k,            tagtoleft,        {0} }, */
         /* { MODKEY4|ShiftMask,             XK_j,            tagtoright,       {0} }, */
         /* Multi monitors. */
-        { MODKEY1|ControlMask,           XK_grave,        focusmon,         {.i = -1 } },
-        { MODKEY1|ControlMask,           XK_Tab,          focusmon,         {.i = +1 } },
-        { MODKEY1|ControlMask|ShiftMask, XK_grave,        tagmon,           {.i = -1 } },
-        { MODKEY1|ControlMask|ShiftMask, XK_Tab,          tagmon,           {.i = +1 } },
+        { MODKEY4,                       XK_grave,        focusmon,         {.i = -1 } },
+        { MODKEY4,                       XK_Tab,          focusmon,         {.i = +1 } },
+        { MODKEY4|ShiftMask,             XK_grave,        tagmon,           {.i = -1 } },
+        { MODKEY4|ShiftMask,             XK_Tab,          tagmon,           {.i = +1 } },
         TAGKEYS(                         XK_8,            0)
         TAGKEYS(                         XK_9,            1)
         TAGKEYS(                         XK_0,            2)
