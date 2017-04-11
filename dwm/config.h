@@ -48,9 +48,10 @@ static const Layout layouts[] = {
 
 #define TAGKEYS(KEY,TAG)                                                \
         { MODKEY1,                 KEY,      view,           {.ui = 1 << TAG} }, \
-  { MODKEY1|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
-  { MODKEY1|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
-  { MODKEY1|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} }, \
+        { MODKEY4,                 KEY,      view,           {.ui = 1 << TAG} }, \
+  { MODKEY4|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
+  { MODKEY4|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
+  { MODKEY4|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} }, \
 
 #define STACKKEYS(MOD,ACTION)                                   \
         { MOD, XK_j,     ACTION##stack, {.i = INC(+1) } },      \
@@ -85,36 +86,38 @@ static const char *mpdseekpluscmd[]  = { "mpc", "seek", "+5%", NULL };
 static const char *mpdseekminuscmd[] = { "mpc", "seek", "-5%", NULL };
 static const char *mpdvolupcmd[]     = { "mpc", "volume", "+10", NULL };
 static const char *mpdvoldowncmd[]   = { "mpc", "volume", "-10", NULL };
-static const char *zoomtoemacscmd[]  = { "run-or-raise.sh", "emacs", "emacs", NULL };
 static const char *slockcmd[]        = { "slock", NULL };
+static const char *emacscmd[]        = { "run-or-raise.sh", "emacs", "emacs", NULL };
 static const char *wordcmd[]         = { "run-or-raise.sh", "WINWORD.EXE", "word.sh", NULL };
 static const char *tccmd[]           = { "run-or-raise.sh", "TOTALCMD.EXE", "tc.sh", NULL };
-static const char *firefoxcmd[]      = { "firefox", NULL, NULL, NULL, "Firefox" };
+static const char *firefoxcmd[]      = { "firefox-esr", NULL, NULL, NULL, "Firefox-esr" };
 /* static const char *switchcmd[]       = { "switcher", NULL }; */
-/* static const char *emacscmd[]        = { "emacs", NULL, NULL, NULL, "Emacs" }; */
 
 static Key keys[] = {
         /* modifier                      key              function          argument */
         STACKKEYS(MODKEY1,                                focus)
-        STACKKEYS(MODKEY1|ShiftMask,                      push)
+        STACKKEYS(MODKEY4,                                focus)
+        STACKKEYS(MODKEY4|ShiftMask,                      push)
         TILEKEYS(MODKEY1,                                 1, 0, 0)
-        TILEKEYS(MODKEY1|ControlMask,                     0, 1, 0)
-        TILEKEYS(MODKEY1|ShiftMask,                       0, 0, 1)
-        TILEKEYS(MODKEY1|ControlMask|ShiftMask,           1, 1, 1)
+        TILEKEYS(MODKEY4,                                 1, 0, 0)
+        TILEKEYS(MODKEY4|ControlMask,                     0, 1, 0)
+        TILEKEYS(MODKEY4|ShiftMask,                       0, 0, 1)
+        TILEKEYS(MODKEY4|ControlMask|ShiftMask,           1, 1, 1)
         /* Sound cmd. */
         { 0,                             0x1008FF12,      spawn,            {.v = mutecmd } },
         { 0,                             0x1008FF11,      spawn,            {.v = volupcmd } },
         { 0,                             0x1008FF13,      spawn,            {.v = voldowncmd } },
         /* Set layout. */
-        { MODKEY4,                       XK_space,        togglebar,        {0} },
+        { MODKEY4,                       XK_m,            togglebar,        {0} },
         { MODKEY1,                       XK_space,        setlayout,        {0} },
-        { MODKEY4,                       XK_p,            setlayout,        {.v = &layouts[0]} },
-        { MODKEY4,                       XK_m,            setlayout,        {.v = &layouts[1]} },
-        { MODKEY4,                       XK_n,            setlayout,        {.v = &layouts[2]} },
-        { MODKEY4,                       XK_i,            incnmaster,       {.i = +1 } },
-        { MODKEY4,                       XK_o,            incnmaster,       {.i = -1 } },
-        { MODKEY4,                       XK_backslash,    setdirs,          {.v = (int[]){ DirHor, DirVer, DirVer } } },
-        { MODKEY4|ShiftMask,             XK_backslash,    setdirs,          {.v = (int[]){ DirVer, DirHor, DirHor } } },
+        { MODKEY4,                       XK_space,        setlayout,        {0} },
+        { MODKEY4|ControlMask,           XK_space,        setlayout,        {.v = &layouts[0]} },
+        { MODKEY4|ShiftMask,             XK_space,        setlayout,        {.v = &layouts[1]} },
+        { MODKEY4|ControlMask|ShiftMask, XK_space,        setlayout,        {.v = &layouts[2]} },
+        { MODKEY4|ControlMask,           XK_j,            incnmaster,       {.i = +1 } },
+        { MODKEY4|ControlMask,           XK_k,            incnmaster,       {.i = -1 } },
+        { MODKEY4|ControlMask,           XK_i,            setdirs,          {.v = (int[]){ DirHor, DirVer, DirVer } } },
+        { MODKEY4|ControlMask,           XK_o,            setdirs,          {.v = (int[]){ DirVer, DirHor, DirHor } } },
         /* Cmd. */
         { MODKEY4,                       XK_s,            spawn,            {.v = slockcmd } },
         { MODKEY4,                       XK_Return,       spawn,            {.v = termcmd } },
@@ -122,28 +125,33 @@ static Key keys[] = {
         { MODKEY4,                       XK_w,            spawn,            {.v = wordcmd } },
         { MODKEY4,                       XK_e,            spawn,            {.v = tccmd } },
         { MODKEY4,                       XK_f,            runorraise,       {.v = firefoxcmd } },
-        /* { MODKEY4,                       XK_s,            spawn,            {.v = switchcmd } }, */
-        /* { MODKEY4,                       XK_e,            runorraise,       {.v = emacscmd } }, */
         /* View. */
-        { MODKEY4,                       XK_q,            quit,             {0} },
+        { MODKEY4|ShiftMask,             XK_q,            quit,             {0} },
         { MODKEY1,                       XK_grave,        view,             {0} },
         { MODKEY1,                       XK_Escape,       view,             {0} },
+        { MODKEY4,                       XK_grave,        view,             {0} },
+        { MODKEY4,                       XK_Escape,       view,             {0} },
         { MODKEY1,                       XK_o,            zoom,             {0} },
-        { MODKEY1|ShiftMask,             XK_o,            spawn,            {.v = zoomtoemacscmd } },
+        { MODKEY4,                       XK_o,            zoom,             {0} },
+        { MODKEY4|ShiftMask,             XK_o,            spawn,            {.v = emacscmd } },
         { MODKEY1,                       XK_q,            killclient,       {0} },
+        { MODKEY4,                       XK_q,            killclient,       {0} },
         { MODKEY1,                       XK_F4,           killclient,       {0} },
         { MODKEY1,                       XK_7,            view,             {.ui = ~0 } },
-        { MODKEY1|ShiftMask,             XK_7,            tag,              {.ui = ~0 } },
+        { MODKEY4,                       XK_7,            view,             {.ui = ~0 } },
+        { MODKEY4|ShiftMask,             XK_7,            tag,              {.ui = ~0 } },
         /* Focus adjacent tag. */
         /* { MODKEY4,                       XK_k,            viewtoleft,       {0} }, */
         /* { MODKEY4,                       XK_j,            viewtoright,      {0} }, */
         /* { MODKEY4|ShiftMask,             XK_k,            tagtoleft,        {0} }, */
         /* { MODKEY4|ShiftMask,             XK_j,            tagtoright,       {0} }, */
         /* Multi monitors. */
-        { MODKEY4,                       XK_grave,        focusmon,         {.i = -1 } },
-        { MODKEY4,                       XK_Tab,          focusmon,         {.i = +1 } },
-        { MODKEY4|ShiftMask,             XK_grave,        tagmon,           {.i = -1 } },
-        { MODKEY4|ShiftMask,             XK_Tab,          tagmon,           {.i = +1 } },
+        { MODKEY1|ControlMask,           XK_grave,        focusmon,         {.i = -1 } },
+        { MODKEY1|ControlMask,           XK_Tab,          focusmon,         {.i = +1 } },
+        { MODKEY4|ControlMask,           XK_grave,        focusmon,         {.i = -1 } },
+        { MODKEY4|ControlMask,           XK_Tab,          focusmon,         {.i = +1 } },
+        { MODKEY4|ControlMask|ShiftMask, XK_grave,        tagmon,           {.i = -1 } },
+        { MODKEY4|ControlMask|ShiftMask, XK_Tab,          tagmon,           {.i = +1 } },
         TAGKEYS(                         XK_8,            0)
         TAGKEYS(                         XK_9,            1)
         TAGKEYS(                         XK_0,            2)
@@ -152,28 +160,29 @@ static Key keys[] = {
         { MODKEY4,                       XK_comma,        spawn,            {.v = mpdseekminuscmd } },
         { MODKEY4,                       XK_period,       spawn,            {.v = mpdseekpluscmd } },
         { MODKEY4|ShiftMask,             XK_slash,        spawn,            {.v = mpdstopcmd } },
-        { MODKEY4|ShiftMask,             XK_comma,        spawn,             {.v = mpdprevcmd } },
+        { MODKEY4|ShiftMask,             XK_comma,        spawn,            {.v = mpdprevcmd } },
         { MODKEY4|ShiftMask,             XK_period,       spawn,            {.v = mpdnextcmd } },
         { MODKEY4,                       XK_equal,        spawn,            {.v = mpdvolupcmd } },
         { MODKEY4,                       XK_minus,        spawn,            {.v = mpdvoldowncmd } },
         /* Maximize. */
         { MODKEY1,                       XK_i,            toggleverticalmax, {0} },
-        { MODKEY1|ShiftMask,             XK_i,            togglehorizontalmax, {0} },
+        { MODKEY4,                       XK_i,            toggleverticalmax, {0} },
+        { MODKEY4|ShiftMask,             XK_i,            togglehorizontalmax, {0} },
         /* Exresize. */
-        { MODKEY1,                       XK_bracketleft,  exresize,         {.v = (int []){ -50,   0 }}},
-        { MODKEY1,                       XK_bracketright, exresize,         {.v = (int []){  50,   0 }}},
-        { MODKEY1|ShiftMask,             XK_bracketleft,  exresize,         {.v = (int []){   0, -50 }}},
-        { MODKEY1|ShiftMask,             XK_bracketright, exresize,         {.v = (int []){   0,  50 }}},
-        { MODKEY4,                       XK_bracketleft,  exresize,         {.v = (int []){ -25, -25 }}},
-        { MODKEY4,                       XK_bracketright, exresize,         {.v = (int []){  25,  25 }}},
-        { MODKEY4,                       XK_k,            explace,          {.ui = EX_N  }},
-        { MODKEY4,                       XK_j,            explace,          {.ui = EX_S  }},
-        { MODKEY4,                       XK_h,            explace,          {.ui = EX_W  }},
-        { MODKEY4,                       XK_l,            explace,          {.ui = EX_E  }},
-        { MODKEY4|ShiftMask,             XK_k,            explace,          {.ui = EX_NW }},
-        { MODKEY4|ShiftMask,             XK_j,            explace,          {.ui = EX_SE }},
-        { MODKEY4|ShiftMask,             XK_h,            explace,          {.ui = EX_SW }},
-        { MODKEY4|ShiftMask,             XK_l,            explace,          {.ui = EX_NE }},
+        { MODKEY4,                       XK_bracketleft,  exresize,         {.v = (int []){ -50,   0 }}},
+        { MODKEY4,                       XK_bracketright, exresize,         {.v = (int []){  50,   0 }}},
+        { MODKEY4|ShiftMask,             XK_bracketleft,  exresize,         {.v = (int []){   0, -50 }}},
+        { MODKEY4|ShiftMask,             XK_bracketright, exresize,         {.v = (int []){   0,  50 }}},
+        { MODKEY4|ControlMask,           XK_bracketleft,  exresize,         {.v = (int []){ -25, -25 }}},
+        { MODKEY4|ControlMask,           XK_bracketright, exresize,         {.v = (int []){  25,  25 }}},
+        { MODKEY4,                       XK_Up,           explace,          {.ui = EX_N  }},
+        { MODKEY4,                       XK_Down,         explace,          {.ui = EX_S  }},
+        { MODKEY4,                       XK_Left,         explace,          {.ui = EX_W  }},
+        { MODKEY4,                       XK_Right,        explace,          {.ui = EX_E  }},
+        { MODKEY4|ShiftMask,             XK_Up,           explace,          {.ui = EX_NW }},
+        { MODKEY4|ShiftMask,             XK_Down,         explace,          {.ui = EX_SE }},
+        { MODKEY4|ShiftMask,             XK_Left,         explace,          {.ui = EX_SW }},
+        { MODKEY4|ShiftMask,             XK_Right,        explace,          {.ui = EX_NE }},
         /* { MODKEY1|MODKEY4,                       XK_5,   explace,                {.ui = EX_C  }}, */
         /* exresize里的maximize功能不好，在exresize.c中注释掉。 */
         /* { MODKEY4,      XK_,              togglehorizontalexpand, {.i = +1} }, */
