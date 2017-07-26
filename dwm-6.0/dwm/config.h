@@ -86,6 +86,9 @@ static const char *mpdseekminuscmd[] = { "mpc", "seek", "-5%", NULL };
 static const char *mpdvolupcmd[]     = { "mpc", "volume", "+10", NULL };
 static const char *mpdvoldowncmd[]   = { "mpc", "volume", "-10", NULL };
 static const char *slockcmd[]        = { "slock", NULL };
+static const char *scrotdesktopcmd[] = { "scrot.sh", NULL };
+static const char *scrotbordercmd[]  = { "scrot.sh", "-bs", NULL };
+static const char *scrotselectcmd[]  = { "scrot.sh", "-s", NULL };
 static const char *emacscmd[]        = { "run-or-raise.sh", "emacs", "emacs", NULL };
 static const char *wordcmd[]         = { "run-or-raise.sh", "WINWORD.EXE", "word.sh", NULL };
 static const char *tccmd[]           = { "run-or-raise.sh", "TOTALCMD.EXE", "tc.sh", NULL };
@@ -144,6 +147,10 @@ static Key keys[] = {
         TAGKEYS(                         XK_8,            0)
         TAGKEYS(                         XK_9,            1)
         TAGKEYS(                         XK_0,            2)
+        /* scrot */
+        { MODKEY4,                       XK_p,            spawn,            {.v = scrotselectcmd } },
+        { MODKEY4|ShiftMask,             XK_p,            spawn,            {.v = scrotbordercmd } },
+        { MODKEY4|ControlMask,           XK_p,            spawn,            {.v = scrotdesktopcmd } },
         /* MPD setup. */
         { MODKEY4,                       XK_slash,        spawn,            {.v = mpdtogglecmd } },
         { MODKEY4,                       XK_comma,        spawn,            {.v = mpdseekminuscmd } },

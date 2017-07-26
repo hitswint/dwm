@@ -1,12 +1,22 @@
 * Patches:
-  * fancybar
-  * pango
-  * pertag
-  * xtile
-  * stacker
-  * focusadjacenttag
-  * systray
-  * runorraise
-  * maximize
-  * exresize
-  * moveresize
+** dwm-6.0
+   * fancybar
+   * pango
+   * pertag
+   * xtile
+   * stacker
+   * maximize
+   * exresize
+   * focusadjacenttag
+   * systray
+** dwm-6.1
+   * fancybar
+   * pertag
+   * systray
+   * moveresize
+   * scratchpad
+   * mark-new
+   * runorraise
+   * savefloats
+   * xtile
+   * stacker

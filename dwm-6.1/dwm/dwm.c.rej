@@ -1,0 +1,10 @@
+--- dwm.c.orig
++++ dwm.c
+@@ -236,6 +236,7 @@ static int xerrorstart(Display *dpy, XEr
+ static void zoom(const Arg *arg);
+ 
+ /* variables */
++static Client *prevzoom = NULL;
+ static const char broken[] = "broken";
+ static char stext[256];
+ static int screen;

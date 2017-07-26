@@ -1,325 +1,45 @@
-#+STARTUP: content
-*对于.patch，使用 patch -Np1 -i 补丁.patch*
-*对于.diff，使用 patch -p1 < 补丁.diff*
+#+STARTUP: showeverything
 在/usr/local/bin中加入switcher，之前先安装xdotool，使用suckless-tools中的slock实现锁屏。
-1. 解压缩并进入dwm代码文件夹
-2. 按如下顺序打补丁
-3. 将config.h拷贝到代码文件夹中
-   因为有些补丁需要对配置文件打补丁，如果先把修改好的config.h拷贝到代码文件夹中，会造成打补丁失败。
-4. make
-5. sudo make clean install
-* 中文支持
-  dwm标题不支持显示中文,打了pango补丁就能正常显示了
-  
-  arch用户直接安装dwm-pango包 https://aur.archlinux.org/packages.php?ID=33193
-  不过貌似依赖很难编译
-  
-  ubuntu用户从dwm官方下载源码包,再手动打pango补丁.
-  
-  从 http://dwm.suckless.org/ 下载dwm6的源码包
-  从 https://aur.archlinux.org/packages.php?ID=33193 下载pango补丁
-  解压dwm,再cd到其目录
-  新开终端解压dwm-pango
-  在dwm源码目录运行 patch -Np1 -i /tmp/dwm-pango/dwm-6.0-pango.patch, 注意把后面的patch文件路径改成你的
-  补丁打完了按照自己的需要修改config.h,编译安装就行了
-  也许需要手动apt-get安装libxinerama-dev和libpango1.0-dev信赖包
-* 取消鼠标focus
-  To disable focus follows mouse behaviour comment out the following line in definiton of struct handler in dwm.c
-  
-  [EnterNotify] = enternotify,
-  
-  Note that this change can cause some difficulties; the first click on an inactive window will only bring the focus to it. To interact with window contents (buttons, fields etc) you need to click again. Also, if you have several monitors, you may notice that the keyboard focus does not switch to another monitor activated by clicking.
-* 打补丁方法
-** diff generation
-   
-   For git users:
-   
-   cd dwm-directory
-   git diff > dwm-X.Y-yourpatchname.diff
-   
-   For tarballs:
-   
-   cd modified-dwm-directory/..
-   diff -up original-dwm-directory modified-dwm-directory > dwm-X.Y-yourpatchname.diff
-   
-   where X.Y is a dwm tag name or version number.
-** patch application
-   
-   For git users:
-   
-   cd dwm-directory
-   git apply path/to/patch.diff
-   
-   For tarballs:
-   
-   cd dwm-directory
-   patch -p1 < path/to/patch.diff
-   
-   
-   sudo apt-get install build-essential suckless-tools rxvt-unicode
-   sudo apt-get install libpango1.0-dev libxinerama-dev
-* 符号英文
++ _编译_
+  make
+  sudo make clean install
++ _补丁_
+  对于.patch，使用 patch -Np1 -i 补丁.patch
+  对于.diff，使用 patch -p1 < 补丁.diff
++ _符号英文_
   comma ,
   period .
   slash /
   backslash \
   semicolon ;
   apostrophe '
-  grave `
+  bracketleft [
+  bracketright ]
+  grave
   space
   Return
   Tab
-  bracketleft [
-  bracketright ]
-* Multi-monitor setup
-  所有关于monitor的patch都是针对dwm 6.1版本的，与现有的dwm 6.0不兼容。
-  If configured to use Xinerama libraries in congik.mk, dwm can automatically detect configured screen outputs (monitor, overhead projector, etc.) and their resolutions and draw the windows in the output area accordingly.
-** Configuring monitors
-   One of the easiest ways to configure screen outputs is via the RandR X server extension using the xrandr tool. Without arguments it will list the current configuration of screen outputs.
-   xrandr
-   For each connected output the supported resolution modes will be printed.
-** Mirroring two outputs
-   dwm will assume that two outputs should display identical windows and tags if * one of them is configured to display in the same area as the other (`--same-as switch) * they have the same resolution
-   After connecting a monitor, this could be an example of a mirroring setup
-   xrandr --output VGA1 --auto --same-as LVDS1 --mode 1024x768
-   xrandr --output LVDS1 --mode 1024x768
-   The --auto switch enables the output after it was connected.
-** Two independent outputs
-   If two screen outputs have different resolutions, dwm assumes that they should display different windows and tag sets. It may therefore be necessary to instruct the X server via the xrandr tool to draw the outputs in different areas of the screen, as it may default to --same-as and the areas would overlap.
-   After connecting a monitor, this could be an example of such a setup
-   xrandr --output VGA1 --auto --right-of LVDS1
-   In this case the --auto switch enables the output after connecting and also sets its preferred resolution mode.
-* Applied
+* dwm-6.0
   按如下顺序打补丁，会出现两个错误：
   1. xtile对dwm.c打补丁的43行错误
   2. stacker对config.def.h打补丁的第41行和对dwm.c打补丁的43行。
-  两个补丁在dwm.c的43行的错误是相同的(不完全相同，stacker多一个错误)，对config.def.h的错误是"快捷键设置没有拷贝"，对照两个补丁，将出错的地方修正。
-  修改之后，将config.h拷贝到代码文件夹中，编译。
-** fancybar
-** pango
-** pertag
-** Xtile
-*** Description
-    This patch implements a generalization of the tile layout which adds two attributes (direction and fact) to three areas (global, master, stack). The global area is the entire allocatable visual space and it’s subdivided into the master and stack subareas.
-    
-    The direction of the global area controls the position of the master area relatively to the stack area and it can be one of DirHor (traditional right stack), DirVer (bottom stack), DirRotHor (left stack) and DirRotVer (top stack). The direction of the master and of the stack areas are independently set and can be one of DirHor and DirVer. This combines to a total of 4*2*2=16 layouts.
-    
-    The fact numbers indicate the relative size of the first subarea/client along the direction of the considered area (i.e. width for DirHor and DirRotHor and height for DirVer and DirRotVer). A fact of 1 means that the first subarea/client is on par the rest, while a fact of 2 means that its size must double the size of each of the remaining subareas/clients, etc. So the fact for the global area is similar to the traditional mfact in the sense that it manages the relative allocation of visual space between the master and stack subareas, while the fact for the master area stands for the relative importance of the first master client against the rest of masters and, similarly, the fact for the stack area stands for the importance of the first slave client in relation to the rest of slaves.
-    
-    xtile adds two new commands to dwm: setdir and setfact (which supersedes setmfact). Both commands take an array of three values (of type int for setdir and float for setfact), one value for each area (the first one for the global area, the second one for the master area and the third one for the stack area). If you pass the value v as INC(v) it will be taken as a relative increment to be added to the current value, otherwise it will be taken as an absolute value. Usually the resulting value will be truncated to the valid range of values for each area/attribute combination, but relative increments for directions wrap around the limits of the valid range. Notice that INC(0) means “do nothing here”, so it gives you a way to easily modify the value for some area while leaving the rest untouched.
-*** Default key bindings
-    The areas are selected by modifiers as follows:
-    Modifier        Area
-    MODKEY  Global
-    MODKEY+Shift    Master
-    MODKEY+Control  Stack
-    MODKEY+Shift+Control    All three areas simultaneously
-    
-    Each of the modifiers then combines with each of the following keys up to a total of 4*3=12 key bindings:
-    Key     Function
-    r       Rotate direction
-    h       Decrement fact by 10%.
-    l       Increment fact by 10%.
-    
-    There are two provided default “presets” or “schemas” also:
-    Modifier        Key     Preset
-    MODKEY+Shift    t       Right stack
-    MODKEY+Control  t       Bottom stack
-    
-    These presets allow to quickly switch between different no-nonsense tilings avoiding the need to rotate through all the nonsense combinations in-between. But notice that MODKEY+Shift+Control+r (i.e. simultaneously rotate all three areas) usually produces sensible layouts (due to the way directions were designed to rotate).
-    
-    You can also easily define your own presets by calling setdir and setfact as needed. For example, here is the configuration code for the default presets described above:
-    
-    { MODKEY|ShiftMask,   XK_t, setdirs, {.v = (int[]){ DirHor, DirVer, DirVer } } },
-    { MODKEY|ControlMask, XK_t, setdirs, {.v = (int[]){ DirVer, DirHor, DirHor } } },
-*** Layout symbol
-    The layout symbol will probably look cryptic at first sight but it’s very easily decoded. It consists of three characters, one for the direction of each area:
-    
-    Global area: ‘<’, ‘>’, ‘v’, ‘^’, just think of it as an arrow that points in the direction of the master area.
-    
-    Master area: ‘|’ for vertically tiled masters and ‘-’ for horizontally tiled masters.
-    
-    Stack area: same as for the master area.
-    
-    For example, ‘<||’ stands for the default right stack tile provided by dwm and ‘^–’ stands for bstack (as defined by the bottom stack patch).
-*** Digressions
-    Why facts per area?
-    There is some arbitrariness in the way facts are defined by xtile: why facts for the first master and the first slave and not, say, for the first two clients instead? Considering that most real life layouts will have one or two masters and a variable number of slaves, the road xtile took will enable the user to effectively control the relative size of the three/four most important clients in a very intuitive way that built on his previous understanding of the mfact and the master and stack area concepts. OTOH it’s not clear to me how to allow the specification of facts for the first two clients in an intuitive way:
-    
-    If there is only one master this alternative approach is equivalent to xtile’s one.
-    If there are two masters, only one fact will be required to specify the share of the master area that belongs to each one, so what to do with the second fact?
-    If this second fact is taken as the share of the second master vs the share of the rest (the slaves), it’s not clear how to define these inter-area shares.
-    
-    Why not deck area?
-    
-    One obvious additional generalization would have been to extrapolate the nmaster idea to all three areas, or at least to the stack area. So if you allowed only m masters and n slaves you would end up with m+n tiled windows and with the rest of the clients in the current tagset stacked or decked “below” the last tiled client. flextile, clients-per-tag and deck patches provide variations on this kind of layout. I’ve also implemented a version of xtile that supports it and even subsumes monocle, but I think this promotes a bad pattern of usage. Coupled with stack manipulation operations as the ones provided by the stacker or push patches, there is the temptation to manage visibility by moving the desired clients in the current tagset to the first n+m visible positions of the focus stack (not to be confused with the stack area). There are a number of problems with this approach:
-    
-    The stack is global to dwm, so pushing around clients in one tag will rearrange them in other tags also. This could become a problem if you rely too much on explicit stack management.
-    
-    The deck area badly violates the principle of least surprise. If you only change focus sequentially by using mod-j/mod-k there is no way to exit the deck at a client different to the last/first decked one. If you use the mouse or the focusstack command provided by the stacker patch to jump directly from the deck to a non-decked client, each time you reach the deck again by using mod-j/mod-k the visible decked client will be replaced by the first/last decked one. In general, there is a devilish interplay of the focus stack and the z-stack that makes the deck unusable as a tabbed view of the decked clients, at least for more than one or two decked clients.
-    
-    Fortunately, dwm provides a much better mechanism to restrict visibility: tags. IMO there is no need to provide a half-assed alternative to one of dwm’s strongest selling points.
-*** Other patches
-    Recommended complementary patches:
-    
-    gaps: to add mostly useless gaps that nevertheless make more apparent which client has the focus.
-    
-    stacker: to better accommodate the clients to the more elaborate layouts allowed by xtile. But I would add: subject to the caveats that I’ve expressed above.
-    
-    Mandatory dependencies:
-    
-    pertag: we all know this one.
-    
-    Related patches: bottom stack, flextile, cfacts, stackmfact.
-*** Download
-** Stacker
-*** Description
-    This patch provides comprehensive utilities for managing the client stack. It implements two new commands: focusstack (which is a replacement for the original focusstack command) and pushstack. The first one is for focusing clients while the second one moves clients around the stack. Both commands take the same kind of argument:
-    
-    Pass PREVSEL to focus/push the previously selected client in the current tagset.
-    
-    Pass INC(+/-inc) to focus/push relatively to the selected client. This will wrap around the stack limits.
-    
-    Pass a positive number to focus/push relatively to the beginning of the stack. Out of limit values will be truncated to the position of the last visible client and won’t wrap around.
-    
-    Pass a negative number to focus/push relatively to the last visible client in the stack. Here -1 means the last client, -2 the previous to last client, etc. Out of limit values will be truncated to the position of the first visible client (0) and won’t wrap around.
-*** Default key bindings
-    There are two parallel sets of bindings: one for the focus* family and the other for the push* family. The keys are the same for both sets but they do differ in the modifiers: simply MODKEY for the focus* family and MODKEY|ShiftMask for the push* family.
-    Key     Argument        Description
-    `       PREVSEL         Previously selected
-    j       INC(+1)         Next to selected
-    k       INC(-1)         Previous to selected
-    q       0       First position
-    a       1       Second position
-    z       2       Third position
-    x       -1      Last position
-    
-    The q, a, z keys are aligned more or less vertically in the us keyboard layout. They are intended to be used as quick positional shortcuts to specific applications. So if you have 9 tags you get 9*3=27 shortcuts in a two-level hierarchy of clients. The ` key is above the Tab key and it’s intended to complement the “move to previously selected tag” function of dwm at the intra-tag level. Finally, the x key is like “I don’t care so much about you just right now but you can still live in this tag”.
-    
-    Notice that MODKEY|ShiftMask+q collides with the default binding for quitting dwm, which stacker changes to MODKEY|ShiftMask+BackSpace.
-*** Download
-* Abandoned
-** deck
-** push
-   pushup and pushdown provide a way to move clients inside the clients list.
-   Example:
-   #include "push.c"
-   如果是no-master，不加上面这行。
-   static Key keys[] = {
-   { MODKEY|ControlMask,           XK_j,           pushdown,       {0} },
-   { MODKEY|ControlMask,           XK_k,           pushup,         {0} },
-   push_no_master is the same as the regular push patch, but it does not push up nor push down into the master area. We have zoom() for that.  # * attachaside
-** stackmfact
-   stackmfact enables you to vertically resize clients in the stack, like the regular mfact enables you to horizontally resize the master client(s).
-** swapfocus
-** fibonacci layouts
-   Description
-   
-   This patch adds two new layouts (spiral and dwindle) that arranges all windows in Fibonacci tiles: The first window uses half the screen, the second the half of the remainder, etc. ASCII art and a real screenshot of the spiral arrangement can be seen below.
-   
-   +-----------+-----------+  +-----------+-----------+
-   |           |           |  |           |           |
-   |           |     2     |  |           |     2     |
-   |           |           |  |           |           |
-   |     1     +--+--+-----+  |     1     +-----+-----+
-   |           | 5|-.|     |  |           |     |  4  |
-   |           +--+--+  3  |  |           |  3  +--+--+
-   |           |  4  |     |  |           |     | 5|-.|
-   +-----------+-----+-----+  +-----------+-----+-----+
-   spiral                     dwindle
-   
-   dwm in spiral layout.
-   
-   Links2, sic, xterm & xclock in spiral layout.
-   Usage
-   
-   Download the patch and apply according to the general instructions.
-   
-   Include the fibonacci.c source file and add spiral and/or dwindle to the Layout section of your config.h file. Example from config.default.h:
-   
-   #include "fibonacci.c"
-   static Layout layout[] = { \
-   /* symbol               function */ \
-   { "[]=",                tile }, /* first entry is default */ \
-   { "><>",                floating }, \
-   { "(@)",                spiral }, \
-   { "[\\]",               dwindle }, \
-   
-   };
-** gapless grid layout
-   This patch is an altered gridmode layout for dwm, which arranges the windows in a grid. Instead of using a regular grid, which might leave empty cells when there are not enough windows to fill the grid, it adjusts the number of windows in the first few columns to avoid empty cells.
-   Download gaplessgrid.c and add the gapless layout to your config.h:
-   #include "gaplessgrid.c"
-   static const Layout layouts[] = {
-   /* symbol     arrange function */
-   { "###",      gaplessgrid },
-   ...
-   
-   static Key keys[] = {
-   /* modifier                     key        function        argument */
-   { MODKEY,                       XK_g,      setlayout,      {.v = &layouts[0] } },
-   ...
-** nmaster
-   The ntile mode from below is included in dwm as of version 6.0.
-   Example:
-   static const int nmaster = 2;  /* default number of clients in the master area */
-   #include "nmaster.c"
-   static const Layout layouts[] = {
-   /* symbol     arrange function */
-   { "-|=",      ntile },
-   { "-|-",      nbstack },
-   static Key keys[] = {
-   /* modifier                     key        function        argument */
-   { MODKEY,                       XK_a,      incnmaster,     {.i = +1 } },
-   { MODKEY,                       XK_z,      incnmaster,     {.i = -1 } },
-   { MODKEY,                       XK_x,      setnmaster,     {.i = 2 } },
-   { MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0] } },
-   { MODKEY,                       XK_b,      setlayout,      {.v = &layouts[1] } },
-** fancycoloredbarclickable
-   This patch combines fancybar and statuscolors with the additional selectby-click-on-title function.
-** moveresize
-   Description
-   This changes allows you to move and resize dwm’s clients using keyboard bindings.
-   Usage
-   Put the following moveresize() function somewhere in your dwm.c, after the line which includes the config.h file:
-   static void moveresize(const Arg *arg) {
-   XEvent ev;
-   Monitor *m = selmon;
-   if(!(m->sel && arg && arg->v && m->sel->isfloating))
-   return;
-   resize(m->sel, m->sel->x + ((int *)arg->v)[0],
-   m->sel->y + ((int *)arg->v)[1],
-   m->sel->w + ((int *)arg->v)[2],
-   m->sel->h + ((int *)arg->v)[3],
-   True);
-   while(XCheckMaskEvent(dpy, EnterWindowMask, &ev));
-   }
-   Insert the bindings into the keys list. Here is an example which uses the arrow keys to move (mod+arrow) or resize (mod+shift+arrow) the selected client:
-   { MODKEY,                       XK_Down,   moveresize,     {.v = (int []){ 0, 25, 0, 0 }}},
-   { MODKEY,                       XK_Up,     moveresize,     {.v = (int []){ 0, -25, 0, 0 }}},
-   { MODKEY,                       XK_Right,  moveresize,     {.v = (int []){ 25, 0, 0, 0 }}},
-   { MODKEY,                       XK_Left,   moveresize,     {.v = (int []){ -25, 0, 0, 0 }}},
-   { MODKEY|ShiftMask,             XK_Down,   moveresize,     {.v = (int []){ 0, 0, 0, 25 }}},
-   { MODKEY|ShiftMask,             XK_Up,     moveresize,     {.v = (int []){ 0, 0, 0, -25 }}},
-   { MODKEY|ShiftMask,             XK_Right,  moveresize,     {.v = (int []){ 0, 0, 25, 0 }}},
-   { MODKEY|ShiftMask,             XK_Left,   moveresize,     {.v = (int []){ 0, 0, -25, 0 }}},
-   If you want to automatically toggle the client floating when move/resize, replace the if() statement above with this code:
-   if(!(m->sel && arg && arg->v))
-   return;
-   if(m->lt[m->sellt]->arrange && !m->sel->isfloating)
-   togglefloating(NULL)
-** Gaps
-   This patch modifies the tile layout to add a gap between clients that helps to visually differentiate between selected borders and normal borders and so provides an additional visual hint to identify the currently selected client. OTOH, there’s no gap between a client and the screen frame in order to reduce the waste of screen space.
-   
-   To configure the gap size just set the configuration variable gappx.
-   
-   There is a variation of the patch for the xtile layout also.
-   Download
-   
-   For vanilla tile: dwm-6.0-gaps.diff
-   
-   For xtile tile: dwm-6.0-xtile-gaps.diff
-   
-   Author
-   
-   Carlos Pita (memeplex) carlosjosepita@gmail.com
+     两个补丁在dwm.c的43行的错误是相同的(不完全相同，stacker多一个错误)，对config.def.h的错误是"快捷键设置没有拷贝"，对照两个补丁，将出错的地方修正。
+     修改之后，将config.h拷贝到代码文件夹中，编译。
+* dwm-6.1
+  1. *编译错误* ：ft2build.h: No such file or directory
+     ~在~ *config.mk* ~中注释掉：~
+     FREETYPEINC = ${X11INC}/freetype2
+     ~因为使用linux而不是BSD。~
+  2. normmarkcolor/selmarkcolor *undeclared*
+     ~在~ *config.h* ~中加：~
+     #+begin_src C
+     static const char normmarkcolor[]   = "#bbbbbb";
+     static const char selmarkcolor[]    = "#eeeeee";
+     #+end_src
+  4. ~moveresize会在代码目录下生成moveresize.c文件，需要在config.h中引入：~ #include "moveresize.c" ~，并修改：~
+     #+begin_src C
+     /* 使move/resize时自动转为float布局。 */
+     if (selmon->lt[selmon->sellt]->arrange && !c->isfloating)
+         togglefloating(NULL);
+     #+end_src
+  5. xtile和stacker都是dwm-6.0的补丁，无法直接patch，按diff文件手动修改源代码。

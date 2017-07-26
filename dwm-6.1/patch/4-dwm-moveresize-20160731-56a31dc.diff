@@ -1,11 +1,12 @@
 Author: Jan Christoph Ebersbach <jceb@e-jc.de>
-URL: http://dwm.suckless.org/patches/historical/moveresize
+URL: http://dwm.suckless.org/patches/moveresize
 These patches provide helper functions for moving and resizing floating windows
 using keybindings.
 
-diff -r ec4baab78314 moveresize.c
---- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/moveresize.c	Fri Apr 06 08:23:15 2012 +0200
+Index: dwm/moveresize.c
+===================================================================
+--- /dev/null
++++ dwm/moveresize.c
 @@ -0,0 +1,64 @@
 +void
 +moveresize(const Arg *arg) {
