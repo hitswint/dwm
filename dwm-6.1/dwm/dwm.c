@@ -215,6 +215,7 @@ static int gettextprop(Window w, Atom atom, char *text, unsigned int size);
 static void grabbuttons(Client *c, int focused);
 static void grabkeys(void);
 static void incnmaster(const Arg *arg);
+static void setnmaster(const Arg *arg);
 static void keypress(XEvent *e);
 static void killclient(const Arg *arg);
 static void manage(Window w, XWindowAttributes *wa);
@@ -258,6 +259,8 @@ static void swapfocus(const Arg *arg);
 static Monitor *systraytomon(Monitor *m);
 static void tag(const Arg *arg);
 static void tagmon(const Arg *arg);
+static void tagtoleft(const Arg *arg);
+static void tagtoright(const Arg *arg);
 static void tile(Monitor *);
 static void togglebar(const Arg *arg);
 static void togglefloating(const Arg *arg);
@@ -282,6 +285,8 @@ static void updatewindowtype(Client *c);
 static void updatetitle(Client *c);
 static void updatewmhints(Client *c);
 static void view(const Arg *arg);
+static void viewtoleft(const Arg *arg);
+static void viewtoright(const Arg *arg);
 static Client *wintoclient(Window w);
 static Monitor *wintomon(Window w);
 static Client *wintosystrayicon(Window w);
@@ -1171,6 +1176,13 @@ void
 incnmaster(const Arg *arg)
 {
 	selmon->nmaster = selmon->pertag->nmasters[selmon->pertag->curtag] = MAX(selmon->nmaster + arg->i, 0);
+	arrange(selmon);
+}
+
+void
+setnmaster(const Arg *arg)
+{
+	selmon->nmaster = selmon->pertag->nmasters[selmon->pertag->curtag] = MAX(arg->i, 0);
 	arrange(selmon);
 }
 
@@ -2132,6 +2144,28 @@ tagmon(const Arg *arg)
 }
 
 void
+tagtoleft(const Arg *arg) {
+        if(selmon->sel != NULL
+           && __builtin_popcount(selmon->tagset[selmon->seltags] & TAGMASK) == 1
+           && selmon->tagset[selmon->seltags] > 1) {
+                selmon->sel->tags >>= 1;
+                focus(NULL);
+                arrange(selmon);
+        }
+}
+
+void
+tagtoright(const Arg *arg) {
+        if(selmon->sel != NULL
+           && __builtin_popcount(selmon->tagset[selmon->seltags] & TAGMASK) == 1
+           && selmon->tagset[selmon->seltags] & (TAGMASK >> 1)) {
+                selmon->sel->tags <<= 1;
+                focus(NULL);
+                arrange(selmon);
+        }
+}
+
+void
 tile(Monitor *m)
 {
 	Client *c;
@@ -2745,6 +2779,28 @@ view(const Arg *arg)
 
 	focus(NULL);
 	arrange(selmon);
+}
+
+void
+viewtoleft(const Arg *arg) {
+        if(__builtin_popcount(selmon->tagset[selmon->seltags] & TAGMASK) == 1
+           && selmon->tagset[selmon->seltags] > 1) {
+                selmon->seltags ^= 1; /* toggle sel tagset */
+                selmon->tagset[selmon->seltags] = selmon->tagset[selmon->seltags ^ 1] >> 1;
+                focus(NULL);
+                arrange(selmon);
+        }
+}
+
+void
+viewtoright(const Arg *arg) {
+        if(__builtin_popcount(selmon->tagset[selmon->seltags] & TAGMASK) == 1
+           && selmon->tagset[selmon->seltags] & (TAGMASK >> 1)) {
+                selmon->seltags ^= 1; /* toggle sel tagset */
+                selmon->tagset[selmon->seltags] = selmon->tagset[selmon->seltags ^ 1] << 1;
+                focus(NULL);
+                arrange(selmon);
+        }
 }
 
 Client *

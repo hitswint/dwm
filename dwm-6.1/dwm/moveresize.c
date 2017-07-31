@@ -9,15 +9,15 @@ moveresize(const Arg *arg) {
 	unsigned int dui;
 	Window dummy;
 
-        if(!selmon->sel->ismax) {
-                if(!selmon->lt[selmon->sellt]->arrange || selmon->sel->isfloating)
-                        selmon->sel->wasfloating = True;
-                else {
-                        togglefloating(NULL);
-                        selmon->sel->wasfloating = False;
-                }
-                selmon->sel->ismax = True;
-        }
+        /* if(!selmon->sel->ismax) { */
+        /*         if(!selmon->lt[selmon->sellt]->arrange || selmon->sel->isfloating) */
+        /*                 selmon->sel->wasfloating = True; */
+        /*         else { */
+        /*                 togglefloating(NULL); */
+        /*                 selmon->sel->wasfloating = False; */
+        /*         } */
+        /*         selmon->sel->ismax = True; */
+        /* } */
 
         if (!c || !arg)
 		return;

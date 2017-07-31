@@ -12,15 +12,15 @@ exresize(const Arg *arg) {
         int x, y, nx, ny, nw, nh;
 
         /* Change state of maximize before exresize. */
-        if(!selmon->sel->ismax) {
-                if(!selmon->lt[selmon->sellt]->arrange || selmon->sel->isfloating)
-                        selmon->sel->wasfloating = True;
-                else {
-                        togglefloating(NULL);
-                        selmon->sel->wasfloating = False;
-                }
-                selmon->sel->ismax = True;
-        }
+        /* if(!selmon->sel->ismax) { */
+        /*         if(!selmon->lt[selmon->sellt]->arrange || selmon->sel->isfloating) */
+        /*                 selmon->sel->wasfloating = True; */
+        /*         else { */
+        /*                 togglefloating(NULL); */
+        /*                 selmon->sel->wasfloating = False; */
+        /*         } */
+        /*         selmon->sel->ismax = True; */
+        /* } */
 
         c = selmon->sel;
 
@@ -69,15 +69,15 @@ explace(const Arg *arg) {
         int nx, ny;
 
         /* Change state of maximize before explace. */
-        if(!selmon->sel->ismax) {
-                if(!selmon->lt[selmon->sellt]->arrange || selmon->sel->isfloating)
-                        selmon->sel->wasfloating = True;
-                else {
-                        togglefloating(NULL);
-                        selmon->sel->wasfloating = False;
-                }
-                selmon->sel->ismax = True;
-        }
+        /* if(!selmon->sel->ismax) { */
+        /*         if(!selmon->lt[selmon->sellt]->arrange || selmon->sel->isfloating) */
+        /*                 selmon->sel->wasfloating = True; */
+        /*         else { */
+        /*                 togglefloating(NULL); */
+        /*                 selmon->sel->wasfloating = False; */
+        /*         } */
+        /*         selmon->sel->ismax = True; */
+        /* } */
 
         c = selmon->sel;
         if (!c || (arg->ui >= 9)) return;

@@ -106,9 +106,10 @@ static const char *slockcmd[]        = { "slock", NULL };
 static const char *scrotdesktopcmd[] = { "scrot.sh", NULL };
 static const char *scrotbordercmd[]  = { "scrot.sh", "-bs", NULL };
 static const char *scrotselectcmd[]  = { "scrot.sh", "-s", NULL };
-static const char *emacscmd[]        = { "emacs", NULL, NULL, NULL, "Emacs" };
-static const char *firefoxcmd[]      = { "firefox", NULL, NULL, NULL, "Firefox-esr" };
+static const char *emacscmd[]        = { "run-or-raise.sh", "emacs", "emacs", NULL };
+static const char *wordcmd[]         = { "run-or-raise.sh", "WINWORD.EXE", "word.sh", NULL };
 static const char *tccmd[]           = { "run-or-raise.sh", "TOTALCMD.EXE", "tc.sh", NULL };
+static const char *firefoxcmd[]      = { "firefox", NULL, NULL, NULL, "Firefox-esr" };
 static const char *switchcmd[]       = { "switcher", NULL };
 
 static Key keys[] = {
@@ -130,8 +131,18 @@ static Key keys[] = {
         { WINKEY|ShiftMask,              XK_space,        setlayout,      {.v = &layouts[1]} },
         { WINKEY|ControlMask|ShiftMask,  XK_space,        setlayout,      {.v = &layouts[2]} },
         { MODKEY|ControlMask,            XK_space,        togglefloating, {0} },
-        { WINKEY,                        XK_m,            incnmaster,     {.i = +1 } },
-        { WINKEY|ShiftMask,              XK_m,            incnmaster,     {.i = -1 } },
+        { WINKEY,                        XK_minus,        incnmaster,     {.i = -1 } },
+        { WINKEY,                        XK_equal,        incnmaster,     {.i = +1 } },
+        { WINKEY,                        XK_1,            setnmaster,     {.i = 1} },
+        { WINKEY,                        XK_2,            setnmaster,     {.i = 2} },
+        { WINKEY,                        XK_3,            setnmaster,     {.i = 3} },
+        { WINKEY,                        XK_4,            setnmaster,     {.i = 4} },
+        { WINKEY,                        XK_5,            setnmaster,     {.i = 5} },
+        { WINKEY,                        XK_6,            setnmaster,     {.i = 6} },
+        { WINKEY,                        XK_7,            setnmaster,     {.i = 7} },
+        { WINKEY,                        XK_8,            setnmaster,     {.i = 8} },
+        { WINKEY,                        XK_9,            setnmaster,     {.i = 9} },
+        { WINKEY,                        XK_0,            setnmaster,     {.i = 0} },
         { WINKEY,                        XK_backslash,    setdirs,        {.v = (int[]){ DirHor, DirVer, DirVer } } },
         { WINKEY|ShiftMask,              XK_backslash,    setdirs,        {.v = (int[]){ DirVer, DirHor, DirHor } } },
         /* Cmd. */
@@ -139,26 +150,23 @@ static Key keys[] = {
         { WINKEY,                        XK_Return,       spawn,          {.v = termcmd } },
         { WINKEY,                        XK_r,            spawn,          {.v = rofiruncmd } },
         { WINKEY|ShiftMask,              XK_r,            spawn,          {.v = rofidruncmd } },
-        { WINKEY,                        XK_w,            spawn,          {.v = rofiwincmd } },
-        { WINKEY|ShiftMask,              XK_w,            spawn,          {.v = switchcmd } },
+        { MODKEY|ControlMask,            XK_Tab,          spawn,          {.v = rofiwincmd } },
+        { MODKEY|ControlMask,            XK_grave,        spawn,          {.v = switchcmd } },
         { WINKEY,                        XK_d,            spawn,          {.v = dmenucmd } },
-        { MODKEY|ShiftMask,              XK_space,        runorraise,     {.v = emacscmd } },
-        { WINKEY,                        XK_f,            runorraise,     {.v = firefoxcmd } },
+        { MODKEY|ShiftMask,              XK_space,        spawn,          {.v = emacscmd } },
+        { WINKEY,                        XK_w,            spawn,          {.v = wordcmd } },
         { WINKEY,                        XK_e,            spawn,          {.v = tccmd } },
-        { WINKEY|ShiftMask,              XK_Return,       togglescratch,  {.v = scratchpadcmd } },
+        { WINKEY,                        XK_f,            runorraise,     {.v = firefoxcmd } },
+        { WINKEY,                        XK_apostrophe,   togglescratch,  {.v = scratchpadcmd } },
+        /* Maximize. */
+        { WINKEY,                        XK_semicolon,    toggleverticalmax, {0} },
+        { WINKEY|ShiftMask,              XK_semicolon,    togglehorizontalmax, {0} },
+        { WINKEY|ControlMask,            XK_semicolon,    togglemaximize,      {0} },
         /* Moveresize. */
         { WINKEY,                        XK_k,            moveresize,     {.v = "0x -50y 0w 0h"} },
         { WINKEY,                        XK_j,            moveresize,     {.v = "0x 50y 0w 0h"} },
         { WINKEY,                        XK_h,            moveresize,     {.v = "-50x 0y 0w 0h"} },
         { WINKEY,                        XK_l,            moveresize,     {.v = "50x 0y 0w 0h"} },
-        /* { WINKEY|ShiftMask,              XK_k,            moveresize,     {.v = "0x 0y 0w -50h"} }, */
-        /* { WINKEY|ShiftMask,              XK_j,            moveresize,     {.v = "0x 0y 0w 50h"} }, */
-        /* { WINKEY|ShiftMask,              XK_h,            moveresize,     {.v = "0x 0y -50w 0h"} }, */
-        /* { WINKEY|ShiftMask,              XK_l,            moveresize,     {.v = "0x 0y 50w 0h"} }, */
-        /* Maximize. */
-        { WINKEY,                        XK_semicolon,    toggleverticalmax, {0} },
-        { WINKEY|ShiftMask,              XK_semicolon,    togglehorizontalmax, {0} },
-        { WINKEY|ControlMask,            XK_semicolon,    togglemaximize,      {0} },
         /* Exresize. */
         { WINKEY|ShiftMask,              XK_k,            exresize,       {.v = (int []){   0, -50 }}},
         { WINKEY|ShiftMask,              XK_j,            exresize,       {.v = (int []){   0,  50 }}},
@@ -169,9 +177,9 @@ static Key keys[] = {
         { WINKEY|ControlMask,            XK_h,            explace,        {.ui = EX_W  }},
         { WINKEY|ControlMask,            XK_l,            explace,        {.ui = EX_E  }},
         /* Mark. */
-        { WINKEY|ControlMask,            XK_apostrophe,   togglemark,     {0} },
-        { WINKEY,                        XK_apostrophe,   swapfocus,      {0} },
-        { WINKEY|ShiftMask,              XK_apostrophe,   swapclient,     {0} },
+        { WINKEY|ControlMask,            XK_m,            togglemark,     {0} },
+        { WINKEY,                        XK_m,            swapfocus,      {0} },
+        { WINKEY|ShiftMask,              XK_m,            swapclient,     {0} },
         /* View. */
         { MODKEY,                        XK_space,        zoom,           {0} },
         { MODKEY,                        XK_Escape,       view,           {0} },
@@ -184,6 +192,11 @@ static Key keys[] = {
         TAGKEYS(                         XK_8,            0)
         TAGKEYS(                         XK_9,            1)
         TAGKEYS(                         XK_0,            2)
+        /* Focus adjacent tag. */
+        { MODKEY,                        XK_minus,        viewtoleft,       {0} },
+        { MODKEY,                        XK_equal,        viewtoright,      {0} },
+        { MODKEY|ShiftMask,              XK_minus,        tagtoleft,        {0} },
+        { MODKEY|ShiftMask,              XK_equal,        tagtoright,       {0} },
         /* Multi monitors. */
         { WINKEY,                        XK_grave,        focusmon,       {.i = -1 } },
         { WINKEY,                        XK_Tab,          focusmon,       {.i = +1 } },
