@@ -1,12 +1,12 @@
 #+STARTUP: showeverything
-在/usr/local/bin中加入switcher，之前先安装xdotool，使用suckless-tools中的slock实现锁屏。
-+ _编译_
++ apt install xdotool slock
++ *编译*
   make
   sudo make clean install
-+ _补丁_
++ *补丁*
   对于.patch，使用 patch -Np1 -i 补丁.patch
   对于.diff，使用 patch -p1 < 补丁.diff
-+ _符号英文_
++ *符号*
   comma ,
   period .
   slash /
@@ -20,26 +20,21 @@
   Return
   Tab
 * dwm-6.0
-  按如下顺序打补丁，会出现两个错误：
-  1. xtile对dwm.c打补丁的43行错误
-  2. stacker对config.def.h打补丁的第41行和对dwm.c打补丁的43行。
-     两个补丁在dwm.c的43行的错误是相同的(不完全相同，stacker多一个错误)，对config.def.h的错误是"快捷键设置没有拷贝"，对照两个补丁，将出错的地方修正。
-     修改之后，将config.h拷贝到代码文件夹中，编译。
 * dwm-6.1
-  1. *编译错误* ：ft2build.h: No such file or directory
-     ~在~ *config.mk* ~中注释掉：~
-     FREETYPEINC = ${X11INC}/freetype2
-     ~因为使用linux而不是BSD。~
-  2. normmarkcolor/selmarkcolor *undeclared*
-     ~在~ *config.h* ~中加：~
-     #+begin_src C
-     static const char normmarkcolor[]   = "#bbbbbb";
-     static const char selmarkcolor[]    = "#eeeeee";
-     #+end_src
-  4. ~moveresize会在代码目录下生成moveresize.c文件，需要在config.h中引入：~ #include "moveresize.c" ~，并修改：~
-     #+begin_src C
-     /* 使move/resize时自动转为float布局。 */
-     if (selmon->lt[selmon->sellt]->arrange && !c->isfloating)
-         togglefloating(NULL);
-     #+end_src
-  5. xtile和stacker都是dwm-6.0的补丁，无法直接patch，按diff文件手动修改源代码。
+  - *编译错误* ：ft2build.h: No such file or directory
+    ~在~ *config.mk* ~中注释掉：~
+    FREETYPEINC = ${X11INC}/freetype2
+    ~因为使用linux而不是BSD。~
+  - normmarkcolor/selmarkcolor *undeclared*
+    ~在~ *config.h* ~中加：~
+    #+begin_src C
+    static const char normmarkcolor[]   = "#bbbbbb";
+    static const char selmarkcolor[]    = "#eeeeee";
+    #+end_src
+  - ~moveresize会在代码目录下生成moveresize.c文件，需要在config.h中引入：~ #include "moveresize.c" ~，并修改：~
+    #+begin_src C
+    /* 使move/resize时自动转为float布局。 */
+    if (selmon->lt[selmon->sellt]->arrange && !c->isfloating)
+        togglefloating(NULL);
+    #+end_src
+  - xtile和stacker都是dwm-6.0的补丁，无法直接patch，按diff文件手动修改源代码。

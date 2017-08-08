@@ -20,3 +20,8 @@
    * savefloats
    * xtile
    * stacker
+   * zoomswap
+   * float_border_color
+   * exresize
+   * focusadjacenttag
+   * killunsel
