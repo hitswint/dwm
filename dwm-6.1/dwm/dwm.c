@@ -218,6 +218,7 @@ static void incnmaster(const Arg *arg);
 static void setnmaster(const Arg *arg);
 static void keypress(XEvent *e);
 static void killclient(const Arg *arg);
+static void killunsel(const Arg *arg);
 static void manage(Window w, XWindowAttributes *wa);
 static void mappingnotify(XEvent *e);
 static void maprequest(XEvent *e);
@@ -1228,6 +1229,28 @@ killclient(const Arg *arg)
 		XSetErrorHandler(xerror);
 		XUngrabServer(dpy);
 	}
+}
+
+void
+killunsel(const Arg *arg)
+{
+        Client *i;
+        
+        if (!selmon->sel)
+                return;
+        for (i = selmon->clients; i; i = i->next) {
+                if (ISVISIBLE(i) && i != selmon->sel) {
+                        if (!sendevent(i->win, wmatom[WMDelete], NoEventMask, wmatom[WMDelete], CurrentTime, 0 , 0, 0)) {
+                                XGrabServer(dpy);
+                                XSetErrorHandler(xerrordummy);
+                                XSetCloseDownMode(dpy, DestroyAll);
+                                XKillClient(dpy, i->win);
+                                XSync(dpy, False);
+                                XSetErrorHandler(xerror);
+                                XUngrabServer(dpy);
+                        }
+                }
+        }
 }
 
 void
