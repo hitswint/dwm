@@ -107,10 +107,15 @@ static const char *scrotdesktopcmd[] = { "scrot.sh", NULL };
 static const char *scrotbordercmd[]  = { "scrot.sh", "-bs", NULL };
 static const char *scrotselectcmd[]  = { "scrot.sh", "-s", NULL };
 static const char *emacscmd[]        = { "run-or-raise.sh", "emacs", "emacs", NULL };
-static const char *wordcmd[]         = { "run-or-raise.sh", "WINWORD.EXE", "word.sh", NULL };
 static const char *tccmd[]           = { "run-or-raise.sh", "TOTALCMD.EXE", "tc.sh", NULL };
 static const char *firefoxcmd[]      = { "firefox", NULL, NULL, NULL, "Firefox-esr" };
 static const char *switchcmd[]       = { "switcher", NULL };
+static const char *ec_killringcmd[]  = { "ec_killring.sh", NULL };
+static const char *ec_sdcvcmd[]      = { "ec_sdcv.sh", NULL };
+static const char *ec_onlinecmd[]    = { "ec_online.sh", NULL };
+static const char *ec_samplecmd[]    = { "ec_sample.sh", NULL };
+static const char *xclipcopycmd[]    = { "xclipcopy.sh", NULL };
+static const char *xclippastecmd[]   = { "xclippaste.sh", NULL };
 
 static Key keys[] = {
         /* modifier                      key             function         argument */
@@ -148,16 +153,21 @@ static Key keys[] = {
         /* Cmd. */
         { WINKEY,                        XK_s,            spawn,          {.v = slockcmd } },
         { WINKEY,                        XK_Return,       spawn,          {.v = termcmd } },
+        { WINKEY|ShiftMask,              XK_Return,       togglescratch,  {.v = scratchpadcmd } },
         { WINKEY,                        XK_r,            spawn,          {.v = rofiruncmd } },
         { WINKEY|ShiftMask,              XK_r,            spawn,          {.v = rofidruncmd } },
         { MODKEY|ControlMask,            XK_Tab,          spawn,          {.v = rofiwincmd } },
         { MODKEY|ControlMask,            XK_grave,        spawn,          {.v = switchcmd } },
         { WINKEY,                        XK_d,            spawn,          {.v = dmenucmd } },
         { MODKEY|ShiftMask,              XK_space,        spawn,          {.v = emacscmd } },
-        { WINKEY,                        XK_w,            spawn,          {.v = wordcmd } },
         { WINKEY,                        XK_e,            spawn,          {.v = tccmd } },
         { WINKEY,                        XK_f,            runorraise,     {.v = firefoxcmd } },
-        { WINKEY,                        XK_apostrophe,   togglescratch,  {.v = scratchpadcmd } },
+        { WINKEY,                        XK_w,            spawn,          {.v = xclipcopycmd } },
+        { WINKEY,                        XK_y,            spawn,          {.v = xclippastecmd } },
+        { WINKEY|ControlMask,            XK_y,            spawn,          {.v = ec_killringcmd } },
+        { WINKEY,                        XK_m,            spawn,          {.v = ec_sdcvcmd } },
+        { WINKEY|ShiftMask,              XK_m,            spawn,          {.v = ec_onlinecmd } },
+        { WINKEY|ControlMask,            XK_m,            spawn,          {.v = ec_samplecmd } },
         /* Maximize. */
         { WINKEY,                        XK_semicolon,    toggleverticalmax, {0} },
         { WINKEY|ShiftMask,              XK_semicolon,    togglehorizontalmax, {0} },
@@ -181,9 +191,9 @@ static Key keys[] = {
         { WINKEY|ShiftMask,              XK_bracketleft,  exresize,       {.v = (int []){   0, -50 }}},
         { WINKEY|ShiftMask,              XK_bracketright, exresize,       {.v = (int []){   0,  50 }}},
         /* Mark. */
-        { WINKEY,                        XK_m,            swapfocus,      {0} },
-        { WINKEY|ShiftMask,              XK_m,            swapclient,     {0} },
-        { WINKEY|ControlMask,            XK_m,            togglemark,     {0} },
+        { WINKEY,                        XK_apostrophe,   swapfocus,      {0} },
+        { WINKEY|ShiftMask,              XK_apostrophe,   swapclient,     {0} },
+        { WINKEY|ControlMask,            XK_apostrophe,   togglemark,     {0} },
         /* View. */
         { MODKEY,                        XK_space,        zoom,           {0} },
         { MODKEY,                        XK_Escape,       view,           {0} },
@@ -191,7 +201,7 @@ static Key keys[] = {
         { MODKEY,                        XK_F4,           killclient,     {0} },
         { WINKEY,                        XK_q,            killclient,     {0} },
         { WINKEY|ShiftMask,              XK_q,            killunsel,      {0} },
-        { WINKEY|ControlMask,            XK_q,            quit,           {0} },
+        { WINKEY|ControlMask|ShiftMask,  XK_q,            quit,           {0} },
         { MODKEY,                        XK_7,            view,           {.ui = ~0 } },
         { MODKEY|ShiftMask,              XK_7,            tag,            {.ui = ~0 } },
         TAGKEYS(                         XK_8,            0)
