@@ -114,6 +114,8 @@ static const char *ec_killringcmd[]  = { "ec_killring.sh", NULL };
 static const char *ec_sdcvcmd[]      = { "ec_sdcv.sh", NULL };
 static const char *ec_onlinecmd[]    = { "ec_online.sh", NULL };
 static const char *ec_samplecmd[]    = { "ec_sample.sh", NULL };
+static const char *ec_editcmd[]      = { "external-edit", "-e", "emacsclient", NULL };
+static const char *ec_editselcmd[]   = { "external-edit", "-s", "-e", "emacsclient", NULL };
 static const char *xclipcopycmd[]    = { "xclipcopy.sh", NULL };
 static const char *xclippastecmd[]   = { "xclippaste.sh", NULL };
 
@@ -156,18 +158,20 @@ static Key keys[] = {
         { WINKEY|ShiftMask,              XK_Return,       togglescratch,  {.v = scratchpadcmd } },
         { WINKEY,                        XK_r,            spawn,          {.v = rofiruncmd } },
         { WINKEY|ShiftMask,              XK_r,            spawn,          {.v = rofidruncmd } },
+        { WINKEY|ControlMask,            XK_r,            spawn,          {.v = dmenucmd } },
         { MODKEY|ControlMask,            XK_Tab,          spawn,          {.v = rofiwincmd } },
         { MODKEY|ControlMask,            XK_grave,        spawn,          {.v = switchcmd } },
-        { WINKEY,                        XK_d,            spawn,          {.v = dmenucmd } },
         { MODKEY|ShiftMask,              XK_space,        spawn,          {.v = emacscmd } },
         { WINKEY,                        XK_e,            spawn,          {.v = tccmd } },
         { WINKEY,                        XK_f,            runorraise,     {.v = firefoxcmd } },
         { WINKEY,                        XK_w,            spawn,          {.v = xclipcopycmd } },
         { WINKEY,                        XK_y,            spawn,          {.v = xclippastecmd } },
         { WINKEY|ControlMask,            XK_y,            spawn,          {.v = ec_killringcmd } },
-        { WINKEY,                        XK_m,            spawn,          {.v = ec_sdcvcmd } },
-        { WINKEY|ShiftMask,              XK_m,            spawn,          {.v = ec_onlinecmd } },
-        { WINKEY|ControlMask,            XK_m,            spawn,          {.v = ec_samplecmd } },
+        { WINKEY,                        XK_d,            spawn,          {.v = ec_sdcvcmd } },
+        { WINKEY|ShiftMask,              XK_d,            spawn,          {.v = ec_onlinecmd } },
+        { WINKEY|ControlMask,            XK_d,            spawn,          {.v = ec_samplecmd } },
+        { WINKEY,                        XK_m,            spawn,          {.v = ec_editcmd } },
+        { WINKEY|ShiftMask,              XK_m,            spawn,          {.v = ec_editselcmd } },
         /* Maximize. */
         { WINKEY,                        XK_semicolon,    toggleverticalmax, {0} },
         { WINKEY|ShiftMask,              XK_semicolon,    togglehorizontalmax, {0} },
