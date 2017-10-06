@@ -88,7 +88,8 @@ static const char *dmenucmd[]        = { "dmenu_run", "-m", dmenumon, "-fn", dme
 static const char *rofiruncmd[]      = { "rofi", "-show", "run", NULL };
 static const char *rofidruncmd[]     = { "rofi", "-show", "drun", NULL };
 static const char *rofiwincmd[]      = { "rofi", "-show", "window", NULL };
-static const char *termcmd[]         = { "tabbed", "-c", "urxvt", "-embed", NULL };
+static const char *rofipowercmd[]    = { "rofi-power", NULL };
+static const char *termcmd[]         = { "tabbed", "-c", "urxvt", "-pe", "default,-tabbed", "-embed", NULL };
 static const char scratchpadname[]   = "scratchpad";
 static const char *scratchpadcmd[]   = { "urxvt", "-name", scratchpadname, NULL };
 static const char *mutecmd[]         = { "amixer", "-q", "sset", "Master", "toggle", NULL };
@@ -205,6 +206,7 @@ static Key keys[] = {
         { MODKEY,                        XK_F4,           killclient,     {0} },
         { WINKEY,                        XK_q,            killclient,     {0} },
         { WINKEY|ShiftMask,              XK_q,            killunsel,      {0} },
+        { WINKEY|ControlMask,            XK_q,            spawn,          {.v = rofipowercmd } },
         { WINKEY|ControlMask|ShiftMask,  XK_q,            quit,           {0} },
         { MODKEY,                        XK_7,            view,           {.ui = ~0 } },
         { MODKEY|ShiftMask,              XK_7,            tag,            {.ui = ~0 } },
