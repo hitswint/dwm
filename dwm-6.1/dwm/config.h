@@ -31,7 +31,6 @@ static const Rule rules[] = {
          *      WM_NAME(STRING) = title
          */
         /* class      instance    title       tags mask     isfloating   monitor */
-        { "Gimp",     NULL,       NULL,       0,            1,           -1 },
         { "Firefox",  NULL,       NULL,       1 << 2,       0,           -1 },
         { "Emacs",    NULL,       NULL,       1 << 1,       False,       -1 },
 };
@@ -109,7 +108,7 @@ static const char *scrotbordercmd[]  = { "scrot.sh", "-bs", NULL };
 static const char *scrotselectcmd[]  = { "scrot.sh", "-s", NULL };
 static const char *emacscmd[]        = { "run-or-raise.sh", "emacs", "emacs", NULL };
 static const char *tccmd[]           = { "run-or-raise.sh", "TOTALCMD.EXE", "tc.sh", NULL };
-static const char *firefoxcmd[]      = { "firefox", NULL, NULL, NULL, "Firefox-esr" };
+static const char *firefoxcmd[]      = { "firefox", NULL, NULL, NULL, "Firefox" };
 static const char *switchcmd[]       = { "switcher", NULL };
 static const char *ec_killringcmd[]  = { "ec_killring.sh", NULL };
 static const char *ec_sdcvcmd[]      = { "ec_sdcv.sh", NULL };
