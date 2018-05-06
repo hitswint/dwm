@@ -31,8 +31,9 @@ static const Rule rules[] = {
          *      WM_NAME(STRING) = title
          */
         /* class      instance    title       tags mask     isfloating   monitor */
-        { "Firefox",  NULL,       NULL,       1 << 2,       0,           -1 },
-        { "Emacs",    NULL,       NULL,       1 << 1,       False,       -1 },
+        { "Firefox",  NULL,       NULL,       1 << 2,       False,       -1 },
+        { "Emacs",    "emacs",    NULL,       1 << 1,       False,       -1 },
+        { "Emacs",    "emacs_ff", NULL,       1 << 2,       True,        -1 },
 };
 
 /* layout(s) */
@@ -91,6 +92,7 @@ static const char *rofipowercmd[]    = { "rofi-power", NULL };
 static const char *termcmd[]         = { "urxvt", NULL };
 static const char scratchpadname[]   = "scratchpad";
 static const char *scratchpadcmd[]   = { "urxvt", "-name", scratchpadname, NULL };
+static const char *emacsffcmd[]      = { "emacsclient", "-c", "-F", "((name . \"emacs_ff\"))", "-e", "(swint-helm-firefox-bookmarks)", NULL };
 static const char *mutecmd[]         = { "amixer", "-q", "sset", "Master", "toggle", NULL };
 static const char *volupcmd[]        = { "amixer", "-q", "sset", "Master", "5-", "unmute", NULL };
 static const char *voldowncmd[]      = { "amixer", "-q", "sset", "Master", "5+", "unmute", NULL };
@@ -156,6 +158,7 @@ static Key keys[] = {
         { WINKEY,                        XK_s,            spawn,          {.v = slockcmd } },
         { WINKEY,                        XK_Return,       spawn,          {.v = termcmd } },
         { WINKEY|ShiftMask,              XK_Return,       togglescratch,  {.v = scratchpadcmd } },
+        { WINKEY,                        XK_apostrophe,   spawn,          {.v = emacsffcmd } },
         { WINKEY,                        XK_r,            spawn,          {.v = rofiruncmd } },
         { WINKEY|ShiftMask,              XK_r,            spawn,          {.v = rofidruncmd } },
         { WINKEY|ControlMask,            XK_r,            spawn,          {.v = dmenucmd } },
