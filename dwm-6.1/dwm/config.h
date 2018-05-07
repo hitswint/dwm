@@ -33,7 +33,7 @@ static const Rule rules[] = {
         /* class      instance    title       tags mask     isfloating   monitor */
         { "Firefox",  NULL,       NULL,       1 << 2,       False,       -1 },
         { "Emacs",    "emacs",    NULL,       1 << 1,       False,       -1 },
-        { "Emacs",    "emacs_ff", NULL,       1 << 2,       True,        -1 },
+        { "Emacs",    "ec_ff",    NULL,       1 << 2,       True,        -1 },
 };
 
 /* layout(s) */
@@ -92,7 +92,8 @@ static const char *rofipowercmd[]    = { "rofi-power", NULL };
 static const char *termcmd[]         = { "urxvt", NULL };
 static const char scratchpadname[]   = "scratchpad";
 static const char *scratchpadcmd[]   = { "urxvt", "-name", scratchpadname, NULL };
-static const char *emacsffcmd[]      = { "emacsclient", "-c", "-F", "((name . \"emacs_ff\")(top . -1))", "-e", "(progn (helm-firefox-bookmarks) (delete-frame))", NULL };
+static const char *ec_ffbmkscmd[]    = { "emacsclient", "-c", "-F", "((name . \"ec_ff\")(top . -1))", "-e", "(let ((browse-url-browser-function 'browse-url-firefox)) (helm-firefox-bookmarks) (delete-frame))", NULL };
+static const char *ec_ffhistcmd[]    = { "emacsclient", "-c", "-F", "((name . \"ec_ff\")(top . -1))", "-e", "(let ((browse-url-browser-function 'browse-url-firefox)) (helm-firefox-history) (delete-frame))", NULL };
 static const char *mutecmd[]         = { "amixer", "-q", "sset", "Master", "toggle", NULL };
 static const char *volupcmd[]        = { "amixer", "-q", "sset", "Master", "5-", "unmute", NULL };
 static const char *voldowncmd[]      = { "amixer", "-q", "sset", "Master", "5+", "unmute", NULL };
@@ -158,7 +159,8 @@ static Key keys[] = {
         { WINKEY,                        XK_s,            spawn,          {.v = slockcmd } },
         { WINKEY,                        XK_Return,       spawn,          {.v = termcmd } },
         { WINKEY|ShiftMask,              XK_Return,       togglescratch,  {.v = scratchpadcmd } },
-        { WINKEY,                        XK_apostrophe,   spawn,          {.v = emacsffcmd } },
+        { WINKEY,                        XK_apostrophe,   spawn,          {.v = ec_ffbmkscmd } },
+        { WINKEY|ShiftMask,              XK_apostrophe,   spawn,          {.v = ec_ffhistcmd } },
         { WINKEY,                        XK_r,            spawn,          {.v = rofiruncmd } },
         { WINKEY|ShiftMask,              XK_r,            spawn,          {.v = rofidruncmd } },
         { WINKEY|ControlMask,            XK_r,            spawn,          {.v = dmenucmd } },
