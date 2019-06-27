@@ -142,6 +142,9 @@ static Key keys[] = {
         { 0,                             0x1008FF13,      spawn,          {.v = pactlvolupcmd } },
         { 0,                             0x1008FF12,      spawn,          {.v = pactlmutecmd } },
         { WINKEY,                        0x1008FF12,      spawn,          {.v = pactlmicmutecmd } },
+        { WINKEY|ControlMask,            XK_bracketleft,  spawn,          {.v = pactlvoldowncmd } },
+        { WINKEY|ControlMask,            XK_bracketright, spawn,          {.v = pactlvolupcmd } },
+        { WINKEY|ControlMask,            XK_backslash,    spawn,          {.v = pactlmutecmd } },
         /* Set layout. */
         { WINKEY,                        XK_b,            togglebar,      {0} },
         { WINKEY,                        XK_space,        setlayout,      {0} },
@@ -190,14 +193,14 @@ static Key keys[] = {
         { WINKEY|ShiftMask,              XK_semicolon,    togglehorizontalmax, {0} },
         { WINKEY|ControlMask,            XK_semicolon,    togglemaximize,      {0} },
         /* Moveresize. */
-        { WINKEY,                        XK_k,            moveresize,     {.v = "0x -50y 0w 0h"} },
-        { WINKEY,                        XK_j,            moveresize,     {.v = "0x 50y 0w 0h"} },
-        { WINKEY,                        XK_h,            moveresize,     {.v = "-50x 0y 0w 0h"} },
-        { WINKEY,                        XK_l,            moveresize,     {.v = "50x 0y 0w 0h"} },
-        { WINKEY|ShiftMask,              XK_k,            moveresize,     {.v = "0x 0y 0w -50h"} },
-        { WINKEY|ShiftMask,              XK_j,            moveresize,     {.v = "0x 0y 0w 50h"} },
-        { WINKEY|ShiftMask,              XK_h,            moveresize,     {.v = "0x 0y -50w 0h"} },
-        { WINKEY|ShiftMask,              XK_l,            moveresize,     {.v = "0x 0y 50w 0h"} },
+        { WINKEY|ShiftMask,              XK_k,            moveresize,     {.v = "0x -50y 0w 0h"} },
+        { WINKEY|ShiftMask,              XK_j,            moveresize,     {.v = "0x 50y 0w 0h"} },
+        { WINKEY|ShiftMask,              XK_h,            moveresize,     {.v = "-50x 0y 0w 0h"} },
+        { WINKEY|ShiftMask,              XK_l,            moveresize,     {.v = "50x 0y 0w 0h"} },
+        /* { WINKEY|ShiftMask,              XK_k,            moveresize,     {.v = "0x 0y 0w -50h"} }, */
+        /* { WINKEY|ShiftMask,              XK_j,            moveresize,     {.v = "0x 0y 0w 50h"} }, */
+        /* { WINKEY|ShiftMask,              XK_h,            moveresize,     {.v = "0x 0y -50w 0h"} }, */
+        /* { WINKEY|ShiftMask,              XK_l,            moveresize,     {.v = "0x 0y 50w 0h"} }, */
         { WINKEY|ControlMask,            XK_k,            explace,        {.ui = EX_N  }},
         { WINKEY|ControlMask,            XK_j,            explace,        {.ui = EX_S  }},
         { WINKEY|ControlMask,            XK_h,            explace,        {.ui = EX_W  }},
@@ -249,10 +252,10 @@ static Key keys[] = {
         { WINKEY|ControlMask,            XK_comma,        spawn,          {.v = mpdvoldowncmd } },
         { WINKEY|ControlMask,            XK_period,       spawn,          {.v = mpdvolupcmd } },
         /* Mouse */
-        { WINKEY|MODKEY,                 XK_h,            spawn,          SHCMD("exec xdotool mousemove_relative -- -15 0") },
-        { WINKEY|MODKEY,                 XK_l,            spawn,          SHCMD("exec xdotool mousemove_relative 15 0") },
-        { WINKEY|MODKEY,                 XK_k,            spawn,          SHCMD("exec xdotool mousemove_relative -- 0 -15") },
-        { WINKEY|MODKEY,                 XK_j,            spawn,          SHCMD("exec xdotool mousemove_relative 0 15") },
+        { WINKEY,                        XK_h,            spawn,          SHCMD("exec xdotool mousemove_relative -- -15 0") },
+        { WINKEY,                        XK_l,            spawn,          SHCMD("exec xdotool mousemove_relative 15 0") },
+        { WINKEY,                        XK_k,            spawn,          SHCMD("exec xdotool mousemove_relative -- 0 -15") },
+        { WINKEY,                        XK_j,            spawn,          SHCMD("exec xdotool mousemove_relative 0 15") },
         { WINKEY,                        XK_u,            spawn,          SHCMD("exec xdotool click 1") },
         { WINKEY,                        XK_i,            spawn,          SHCMD("exec xdotool click 2") },
         { WINKEY,                        XK_o,            spawn,          SHCMD("exec xdotool click 3") },
