@@ -108,9 +108,9 @@ static const char *mpdseekminuscmd[] = { "mpc", "seek", "-5%", NULL };
 static const char *mpdvolupcmd[]     = { "mpc", "volume", "+10", NULL };
 static const char *mpdvoldowncmd[]   = { "mpc", "volume", "-10", NULL };
 static const char *slockcmd[]        = { "slock", NULL };
-static const char *scrotdesktopcmd[] = { "scrot.sh", NULL };
-static const char *scrotbordercmd[]  = { "scrot.sh", "-bs", NULL };
-static const char *scrotselectcmd[]  = { "scrot.sh", "-s", NULL };
+static const char *ssdesktopcmd[]    = { "screenshot.sh", "d", NULL };
+static const char *ssbordercmd[]     = { "screenshot.sh", "w", NULL };
+static const char *ssselectcmd[]     = { "screenshot.sh", "s", NULL };
 static const char *emacsclientcmd[]  = { "run-or-raise.sh", "emacs", "ec.sh", NULL };
 static const char *tccmd[]           = { "run-or-raise.sh", "TOTALCMD.EXE", "tc.sh", NULL };
 static const char *firefoxcmd[]      = { "firefox", NULL, NULL, NULL, "Firefox" };
@@ -237,10 +237,10 @@ static Key keys[] = {
         { MODKEY|ControlMask,            XK_Tab,          focusmon,       {.i = +1 } },
         { MODKEY|ControlMask|ShiftMask,  XK_grave,        tagmon,         {.i = -1 } },
         { MODKEY|ControlMask|ShiftMask,  XK_Tab,          tagmon,         {.i = +1 } },
-        /* Scrot. */
-        { WINKEY,                        XK_p,            spawn,          {.v = scrotselectcmd } },
-        { WINKEY|ShiftMask,              XK_p,            spawn,          {.v = scrotbordercmd } },
-        { WINKEY|ControlMask,            XK_p,            spawn,          {.v = scrotdesktopcmd } },
+        /* Screenshot. */
+        { WINKEY,                        XK_p,            spawn,          {.v = ssselectcmd } },
+        { WINKEY|ShiftMask,              XK_p,            spawn,          {.v = ssbordercmd } },
+        { WINKEY|ControlMask,            XK_p,            spawn,          {.v = ssdesktopcmd } },
         /* MPD setup. */
         { WINKEY,                        XK_slash,        spawn,          {.v = mpdtogglecmd } },
         { WINKEY,                        XK_comma,        spawn,          {.v = mpdseekminuscmd } },
