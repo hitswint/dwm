@@ -199,6 +199,7 @@ static void destroynotify(XEvent *e);
 static void detach(Client *c);
 static void detachstack(Client *c);
 static Monitor *dirtomon(int dir);
+static Monitor *sptomon(int dir);
 static void drawbar(Monitor *m);
 static void drawbars(void);
 static void enternotify(XEvent *e);
@@ -206,6 +207,7 @@ static void expose(XEvent *e);
 static void focus(Client *c);
 static void focusin(XEvent *e);
 static void focusmon(const Arg *arg);
+static void focusmonsp(const Arg *arg);
 static void focusstack(const Arg *arg);
 static Atom getatomprop(Client *c, Atom prop);
 static int getrootptr(int *x, int *y);
@@ -260,6 +262,7 @@ static void swapfocus(const Arg *arg);
 static Monitor *systraytomon(Monitor *m);
 static void tag(const Arg *arg);
 static void tagmon(const Arg *arg);
+static void tagmonsp(const Arg *arg);
 static void tagtoleft(const Arg *arg);
 static void tagtoright(const Arg *arg);
 static void tile(Monitor *);
@@ -286,6 +289,7 @@ static void updatewindowtype(Client *c);
 static void updatetitle(Client *c);
 static void updatewmhints(Client *c);
 static void view(const Arg *arg);
+static void viewallmon(const Arg *arg);
 static void viewtoleft(const Arg *arg);
 static void viewtoright(const Arg *arg);
 static Client *wintoclient(Window w);
@@ -330,7 +334,7 @@ static Cur *cursor[CurLast];
 static ClrScheme scheme[SchemeLast];
 static Display *dpy;
 static Drw *drw;
-static Monitor *mons, *selmon;
+static Monitor *mons, *selmon, *prevmon;
 static Window root;
 static Client *mark;
 
@@ -848,6 +852,24 @@ dirtomon(int dir)
 	return m;
 }
 
+Monitor *
+sptomon(int montag)
+{
+	Monitor *m = NULL;
+        int i = 0;
+
+        if (montag == -1) {
+                if (prevmon && prevmon != selmon)
+                        m = prevmon;
+                else
+                        m = dirtomon(1);
+        }
+        else
+                for (m = mons; m->next && i<montag; m = m->next)
+                        i++;
+        return m;
+}
+
 void
 drawbar(Monitor *m)
 {
@@ -1027,8 +1049,25 @@ focusmon(const Arg *arg)
 		return;
 	if ((m = dirtomon(arg->i)) == selmon)
 		return;
-	unfocus(selmon->sel, 0); /* s/1/0/ fixes input focus issues
+        prevmon = selmon;
+        unfocus(selmon->sel, 0); /* s/1/0/ fixes input focus issues
 					in gedit and anjuta */
+	selmon = m;
+	focus(NULL);
+}
+
+void
+focusmonsp(const Arg *arg)
+{
+	Monitor *m;
+
+	if (!mons->next)
+		return;
+	if ((m = sptomon(arg->i)) == selmon)
+		return;
+        prevmon = selmon;
+	unfocus(selmon->sel, 0); /* s/1/0/ fixes input focus issues
+                                    in gedit and anjuta */
 	selmon = m;
 	focus(NULL);
 }
@@ -1723,6 +1762,11 @@ runorraise(const Arg *arg) {
                 for (c = mon->clients; c; c = c->next) {
                         XGetClassHint(dpy, c->win, &hint);
                         if (hint.res_class && strcmp(app, hint.res_class) == 0) {
+                                /* 增加以切换monitor */
+                                prevmon = selmon;
+                                unfocus(selmon->sel, 0);
+                                selmon = mon;
+                                /* 原函数 */
                                 a.ui = c->tags;
                                 view(&a);
                                 focus(c);
@@ -2164,6 +2208,14 @@ tagmon(const Arg *arg)
 	if (!selmon->sel || !mons->next)
 		return;
 	sendmon(selmon->sel, dirtomon(arg->i));
+}
+
+void
+tagmonsp(const Arg *arg)
+{
+	if (!selmon->sel || !mons->next)
+		return;
+	sendmon(selmon->sel, sptomon(arg->i));
 }
 
 void
@@ -2802,6 +2854,37 @@ view(const Arg *arg)
 
 	focus(NULL);
 	arrange(selmon);
+}
+
+void
+viewallmon(const Arg *arg)
+{
+	unsigned int tmptag;
+        Monitor *m;
+
+        for (m = mons; m; m = m->next) {
+                if (selmon == m)
+                        continue;
+                m->seltags ^= 1; /* toggle sel tagset */
+                if (arg->ui == ~0 && m->pertag->curtag != 0) {
+                        m->tagset[m->seltags] = arg->ui & TAGMASK;
+                        m->pertag->prevtag = m->pertag->curtag;
+                        m->pertag->curtag = 0;
+                } else {
+                        tmptag = m->pertag->prevtag;
+                        m->pertag->prevtag = m->pertag->curtag;
+                        m->pertag->curtag = tmptag;
+                }
+                m->nmaster = m->pertag->nmasters[m->pertag->curtag];
+                m->sellt = m->pertag->sellts[m->pertag->curtag];
+                m->lt[m->sellt] = m->pertag->ltidxs[m->pertag->curtag][m->sellt];
+                m->lt[m->sellt^1] = m->pertag->ltidxs[m->pertag->curtag][m->sellt^1];
+                if (m->showbar != m->pertag->showbars[m->pertag->curtag])
+                        togglebar(NULL);
+        }
+
+	focus(NULL);
+        arrange(NULL);
 }
 
 void

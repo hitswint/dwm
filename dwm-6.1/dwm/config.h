@@ -31,7 +31,12 @@ static const Rule rules[] = {
          *      WM_NAME(STRING) = title
          */
         /* class      instance    title       tags mask     isfloating   monitor */
-        { "Firefox",  NULL,       NULL,       1 << 2,       False,       -1 },
+        { "qpdfview", NULL,       NULL,       0,            False,        0 },
+        { "Wps",      NULL,       NULL,       0,            False,        0 },
+        { "Et",       NULL,       NULL,       0,            False,        0 },
+        { "Wpp",      NULL,       NULL,       0,            False,        0 },
+        { "Wine",     NULL,       NULL,       0,            False,        0 },
+        { "Firefox",  NULL,       NULL,       1 << 2,       False,        0 },
         { "Emacs",    "emacs",    NULL,       1 << 1,       False,       -1 },
         { "Emacs",    "ec_float", NULL,       0,            True,        -1 },
 };
@@ -112,7 +117,6 @@ static const char *ssdesktopcmd[]    = { "screenshot.sh", "d", NULL };
 static const char *ssbordercmd[]     = { "screenshot.sh", "w", NULL };
 static const char *ssselectcmd[]     = { "screenshot.sh", "s", NULL };
 static const char *emacsclientcmd[]  = { "run-or-raise.sh", "emacs", "ec.sh", NULL };
-static const char *tccmd[]           = { "run-or-raise.sh", "TOTALCMD.EXE", "tc.sh", NULL };
 static const char *firefoxcmd[]      = { "firefox", NULL, NULL, NULL, "Firefox" };
 static const char *switchcmd[]       = { "switcher", NULL };
 static const char *ec_killringcmd[]  = { "ec_killring.sh", NULL };
@@ -152,18 +156,14 @@ static Key keys[] = {
         { WINKEY|ShiftMask,              XK_space,        setlayout,      {.v = &layouts[1]} },
         { WINKEY|ControlMask|ShiftMask,  XK_space,        setlayout,      {.v = &layouts[2]} },
         { MODKEY|ControlMask,            XK_space,        togglefloating, {0} },
-        { WINKEY,                        XK_minus,        incnmaster,     {.i = -1 } },
-        { WINKEY,                        XK_equal,        incnmaster,     {.i = +1 } },
+        /* { WINKEY,                        XK_minus,        incnmaster,     {.i = -1 } }, */
+        /* { WINKEY,                        XK_equal,        incnmaster,     {.i = +1 } }, */
         { WINKEY,                        XK_1,            setnmaster,     {.i = 1} },
         { WINKEY,                        XK_2,            setnmaster,     {.i = 2} },
         { WINKEY,                        XK_3,            setnmaster,     {.i = 3} },
         { WINKEY,                        XK_4,            setnmaster,     {.i = 4} },
         { WINKEY,                        XK_5,            setnmaster,     {.i = 5} },
         { WINKEY,                        XK_6,            setnmaster,     {.i = 6} },
-        { WINKEY,                        XK_7,            setnmaster,     {.i = 7} },
-        { WINKEY,                        XK_8,            setnmaster,     {.i = 8} },
-        { WINKEY,                        XK_9,            setnmaster,     {.i = 9} },
-        { WINKEY,                        XK_0,            setnmaster,     {.i = 0} },
         { WINKEY,                        XK_backslash,    setdirs,        {.v = (int[]){ DirHor, DirVer, DirVer } } },
         { WINKEY|ShiftMask,              XK_backslash,    setdirs,        {.v = (int[]){ DirVer, DirHor, DirHor } } },
         /* Cmd. */
@@ -176,22 +176,23 @@ static Key keys[] = {
         { WINKEY|ShiftMask,              XK_r,            spawn,          {.v = rofidruncmd } },
         { WINKEY|ControlMask,            XK_r,            spawn,          {.v = dmenucmd } },
         { WINKEY,                        XK_Tab,          spawn,          {.v = rofiwincmd } },
-        { WINKEY,                        XK_grave,        spawn,          {.v = switchcmd } },
-        { MODKEY|ShiftMask,              XK_space,        spawn,          {.v = emacsclientcmd } },
-        { WINKEY,                        XK_e,            spawn,          {.v = tccmd } },
-        { WINKEY,                        XK_f,            runorraise,     {.v = firefoxcmd } },
+        { WINKEY|ShiftMask,              XK_Tab,          spawn,          {.v = switchcmd } },
         { WINKEY,                        XK_w,            spawn,          {.v = xclipcopycmd } },
         { WINKEY,                        XK_y,            spawn,          {.v = xclippastecmd } },
         { WINKEY|ControlMask,            XK_y,            spawn,          {.v = ec_killringcmd } },
         { WINKEY,                        XK_d,            spawn,          {.v = ec_sdcvcmd } },
         { WINKEY|ShiftMask,              XK_d,            spawn,          {.v = ec_onlinecmd } },
         { WINKEY|ControlMask,            XK_d,            spawn,          {.v = ec_samplecmd } },
-        { WINKEY,                        XK_m,            spawn,          {.v = ec_editcmd } },
-        { WINKEY|ShiftMask,              XK_m,            spawn,          {.v = ec_editselcmd } },
+        { WINKEY,                        XK_e,            spawn,          {.v = ec_editcmd } },
+        { WINKEY|ShiftMask,              XK_e,            spawn,          {.v = ec_editselcmd } },
+        /* runorraise */
+        /* 修改runorraise使其在不同屏幕间切换 */
+        { MODKEY|ShiftMask,              XK_space,        spawn,          {.v = emacsclientcmd } },
+        { WINKEY,                        XK_f,            runorraise,     {.v = firefoxcmd } },
         /* Maximize. */
-        { WINKEY,                        XK_semicolon,    toggleverticalmax, {0} },
-        { WINKEY|ShiftMask,              XK_semicolon,    togglehorizontalmax, {0} },
-        { WINKEY|ControlMask,            XK_semicolon,    togglemaximize,      {0} },
+        { WINKEY,                        XK_m,            toggleverticalmax, {0} },
+        { WINKEY|ShiftMask,              XK_m,            togglehorizontalmax, {0} },
+        { WINKEY|ControlMask,            XK_m,            togglemaximize, {0} },
         /* Moveresize. */
         { WINKEY,                        XK_k,            moveresize,     {.v = "0x -50y 0w 0h"} },
         { WINKEY,                        XK_j,            moveresize,     {.v = "0x 50y 0w 0h"} },
@@ -211,9 +212,9 @@ static Key keys[] = {
         { WINKEY|ShiftMask,              XK_bracketleft,  exresize,       {.v = (int []){   0, -50 }}},
         { WINKEY|ShiftMask,              XK_bracketright, exresize,       {.v = (int []){   0,  50 }}},
         /* Mark. */
-        { WINKEY,                        XK_BackSpace,    swapfocus,      {0} },
-        { WINKEY|ShiftMask,              XK_BackSpace,    swapclient,     {0} },
-        { WINKEY|ControlMask,            XK_BackSpace,    togglemark,     {0} },
+        { WINKEY,                        XK_semicolon,    swapfocus,      {0} },
+        { WINKEY|ShiftMask,              XK_semicolon,    swapclient,     {0} },
+        { WINKEY|ControlMask,            XK_semicolon,    togglemark,     {0} },
         /* View. */
         { MODKEY,                        XK_space,        zoom,           {0} },
         { MODKEY,                        XK_grave,        view,           {0} },
@@ -233,10 +234,19 @@ static Key keys[] = {
         { MODKEY|ShiftMask,              XK_minus,        tagtoleft,        {0} },
         { MODKEY|ShiftMask,              XK_equal,        tagtoright,       {0} },
         /* Multi monitors. */
-        { MODKEY|ControlMask,            XK_grave,        focusmon,       {.i = -1 } },
-        { MODKEY|ControlMask,            XK_Tab,          focusmon,       {.i = +1 } },
-        { MODKEY|ControlMask|ShiftMask,  XK_grave,        tagmon,         {.i = -1 } },
-        { MODKEY|ControlMask|ShiftMask,  XK_Tab,          tagmon,         {.i = +1 } },
+        { WINKEY,                        XK_minus,        focusmon,       {.i = -1 } },
+        { WINKEY,                        XK_equal,        focusmon,       {.i = +1 } },
+        { WINKEY|ShiftMask,              XK_minus,        tagmon,         {.i = -1 } },
+        { WINKEY|ShiftMask,              XK_equal,        tagmon,         {.i = +1 } },
+        { WINKEY,                        XK_8,            focusmonsp,     {.i = 0 } },
+        { WINKEY,                        XK_9,            focusmonsp,     {.i = 1 } },
+        { WINKEY,                        XK_0,            focusmonsp,     {.i = 2 } },
+        { WINKEY,                        XK_grave,        focusmonsp,     {.i = -1 } },
+        { WINKEY|ShiftMask,              XK_8,            tagmonsp,       {.i = 0 } },
+        { WINKEY|ShiftMask,              XK_9,            tagmonsp,       {.i = 1 } },
+        { WINKEY|ShiftMask,              XK_0,            tagmonsp,       {.i = 2 } },
+        { WINKEY|ShiftMask,              XK_grave,        tagmonsp,       {.i = -1 } },
+        { WINKEY,                        XK_7,            viewallmon,     {.ui = ~0 } },
         /* Screenshot. */
         { WINKEY,                        XK_p,            spawn,          {.v = ssselectcmd } },
         { WINKEY|ShiftMask,              XK_p,            spawn,          {.v = ssbordercmd } },
