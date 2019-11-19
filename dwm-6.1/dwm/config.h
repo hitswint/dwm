@@ -31,12 +31,12 @@ static const Rule rules[] = {
          *      WM_NAME(STRING) = title
          */
         /* class      instance    title       tags mask     isfloating   monitor */
-        { "qpdfview", NULL,       NULL,       0,            False,        0 },
-        { "Wps",      NULL,       NULL,       0,            False,        0 },
-        { "Et",       NULL,       NULL,       0,            False,        0 },
-        { "Wpp",      NULL,       NULL,       0,            False,        0 },
-        { "Wine",     NULL,       NULL,       0,            False,        0 },
-        { "Firefox",  NULL,       NULL,       1 << 2,       False,        0 },
+        { "qpdfview", NULL,       NULL,       0,            False,        1 },
+        { "Wps",      NULL,       NULL,       0,            False,        1 },
+        { "Et",       NULL,       NULL,       0,            False,        1 },
+        { "Wpp",      NULL,       NULL,       0,            False,        1 },
+        { "Wine",     NULL,       NULL,       0,            False,        1 },
+        { "Firefox",  NULL,       NULL,       1 << 2,       False,        1 },
         { "Emacs",    "emacs",    NULL,       1 << 1,       False,       -1 },
         { "Emacs",    "ec_float", NULL,       0,            True,        -1 },
 };
@@ -68,6 +68,12 @@ static const Layout layouts[] = {
         { MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
         { MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 
+#define TAGKEYS_MON(KEY,TAG)                                            \
+        { WINKEY,                       KEY,      view_mon,       {.ui = 1 << TAG} }, \
+        { WINKEY|ControlMask,           KEY,      toggleview_mon, {.ui = 1 << TAG} }, \
+        { WINKEY|ShiftMask,             KEY,      tag_mon,        {.ui = 1 << TAG} }, \
+        { WINKEY|ControlMask|ShiftMask, KEY,      toggletag_mon,  {.ui = 1 << TAG} },
+
 #define STACKKEYS(MOD,ACTION)                                   \
         { MOD, XK_j,     ACTION##stack, {.i = INC(+1) } },      \
   { MOD, XK_k,     ACTION##stack, {.i = INC(-1) } },            \
@@ -78,6 +84,14 @@ static const Layout layouts[] = {
   { MOD, XK_4,     ACTION##stack, {.i = 3 } },                  \
   { MOD, XK_5,     ACTION##stack, {.i = 4 } },                  \
   { MOD, XK_6,     ACTION##stack, {.i = -1 } },                 \
+
+#define STACKKEYS_MON(MOD,ACTION)                               \
+        { MOD, XK_1,     ACTION##stack_mon, {.i = 0 } },        \
+  { MOD, XK_2,     ACTION##stack_mon, {.i = 1 } },              \
+  { MOD, XK_3,     ACTION##stack_mon, {.i = 2 } },              \
+  { MOD, XK_4,     ACTION##stack_mon, {.i = 3 } },              \
+  { MOD, XK_5,     ACTION##stack_mon, {.i = 4 } },              \
+  { MOD, XK_6,     ACTION##stack_mon, {.i = -1 } },             \
 
 #define TILEKEYS(MOD,G,M,S)                                             \
         { MOD, XK_h, setfacts, {.v = (float[]){ INC(G * -0.15), INC(M * -0.30), INC(S * -0.30) } } }, \
@@ -134,6 +148,8 @@ static Key keys[] = {
         /* modifier                      key             function         argument */
         STACKKEYS(MODKEY,                                focus)
         STACKKEYS(MODKEY|ShiftMask,                      push)
+        STACKKEYS_MON(WINKEY,                            focus)
+        STACKKEYS_MON(WINKEY|ShiftMask,                  push)
         TILEKEYS(MODKEY,                                 1, 0, 0)
         TILEKEYS(MODKEY|ControlMask,                     0, 1, 0)
         TILEKEYS(MODKEY|ShiftMask,                       0, 0, 1)
@@ -146,9 +162,9 @@ static Key keys[] = {
         { 0,                             0x1008FF13,      spawn,          {.v = pactlvolupcmd } },
         { 0,                             0x1008FF12,      spawn,          {.v = pactlmutecmd } },
         { WINKEY,                        0x1008FF12,      spawn,          {.v = pactlmicmutecmd } },
-        { WINKEY|ControlMask,            XK_bracketleft,  spawn,          {.v = pactlvoldowncmd } },
-        { WINKEY|ControlMask,            XK_bracketright, spawn,          {.v = pactlvolupcmd } },
-        { WINKEY|ControlMask,            XK_backslash,    spawn,          {.v = pactlmutecmd } },
+        { WINKEY|ControlMask,            XK_minus,        spawn,          {.v = pactlvoldowncmd } },
+        { WINKEY|ControlMask,            XK_equal,        spawn,          {.v = pactlvolupcmd } },
+        { WINKEY|ControlMask,            XK_BackSpace,    spawn,          {.v = pactlmutecmd } },
         /* Set layout. */
         { WINKEY,                        XK_b,            togglebar,      {0} },
         { WINKEY,                        XK_space,        setlayout,      {0} },
@@ -156,16 +172,16 @@ static Key keys[] = {
         { WINKEY|ShiftMask,              XK_space,        setlayout,      {.v = &layouts[1]} },
         { WINKEY|ControlMask|ShiftMask,  XK_space,        setlayout,      {.v = &layouts[2]} },
         { MODKEY|ControlMask,            XK_space,        togglefloating, {0} },
-        /* { WINKEY,                        XK_minus,        incnmaster,     {.i = -1 } }, */
-        /* { WINKEY,                        XK_equal,        incnmaster,     {.i = +1 } }, */
-        { WINKEY,                        XK_1,            setnmaster,     {.i = 1} },
-        { WINKEY,                        XK_2,            setnmaster,     {.i = 2} },
-        { WINKEY,                        XK_3,            setnmaster,     {.i = 3} },
-        { WINKEY,                        XK_4,            setnmaster,     {.i = 4} },
-        { WINKEY,                        XK_5,            setnmaster,     {.i = 5} },
-        { WINKEY,                        XK_6,            setnmaster,     {.i = 6} },
-        { WINKEY,                        XK_backslash,    setdirs,        {.v = (int[]){ DirHor, DirVer, DirVer } } },
-        { WINKEY|ShiftMask,              XK_backslash,    setdirs,        {.v = (int[]){ DirVer, DirHor, DirHor } } },
+        { WINKEY|ShiftMask,              XK_a,            incnmaster,     {.i = -1 } },
+        { WINKEY,                        XK_a,            incnmaster,     {.i = +1 } },
+        { WINKEY|ControlMask,            XK_1,            setnmaster,     {.i = 1} },
+        { WINKEY|ControlMask,            XK_2,            setnmaster,     {.i = 2} },
+        { WINKEY|ControlMask,            XK_3,            setnmaster,     {.i = 3} },
+        { WINKEY|ControlMask,            XK_4,            setnmaster,     {.i = 4} },
+        { WINKEY|ControlMask,            XK_5,            setnmaster,     {.i = 5} },
+        { WINKEY|ControlMask,            XK_6,            setnmaster,     {.i = 6} },
+        { WINKEY,                        XK_BackSpace,    setdirs,        {.v = (int[]){ DirHor, DirVer, DirVer } } },
+        { WINKEY|ShiftMask,              XK_BackSpace,    setdirs,        {.v = (int[]){ DirVer, DirHor, DirHor } } },
         /* Cmd. */
         { WINKEY,                        XK_s,            spawn,          {.v = slockcmd } },
         { WINKEY,                        XK_Return,       spawn,          {.v = termcmd } },
@@ -207,10 +223,10 @@ static Key keys[] = {
         { WINKEY|ControlMask,            XK_h,            explace,        {.ui = EX_W  }},
         { WINKEY|ControlMask,            XK_l,            explace,        {.ui = EX_E  }},
         /* Exresize. */
-        { WINKEY,                        XK_bracketleft,  exresize,       {.v = (int []){ -50,   0 }}},
-        { WINKEY,                        XK_bracketright, exresize,       {.v = (int []){  50,   0 }}},
-        { WINKEY|ShiftMask,              XK_bracketleft,  exresize,       {.v = (int []){   0, -50 }}},
-        { WINKEY|ShiftMask,              XK_bracketright, exresize,       {.v = (int []){   0,  50 }}},
+        /* { WINKEY,                        XK_bracketleft,  exresize,       {.v = (int []){ -50,   0 }}}, */
+        /* { WINKEY,                        XK_bracketright, exresize,       {.v = (int []){  50,   0 }}}, */
+        /* { WINKEY|ShiftMask,              XK_bracketleft,  exresize,       {.v = (int []){   0, -50 }}}, */
+        /* { WINKEY|ShiftMask,              XK_bracketright, exresize,       {.v = (int []){   0,  50 }}}, */
         /* Mark. */
         { WINKEY,                        XK_semicolon,    swapfocus,      {0} },
         { WINKEY|ShiftMask,              XK_semicolon,    swapclient,     {0} },
@@ -228,23 +244,26 @@ static Key keys[] = {
         TAGKEYS(                         XK_8,            0)
         TAGKEYS(                         XK_9,            1)
         TAGKEYS(                         XK_0,            2)
+        TAGKEYS_MON(                     XK_8,            0)
+        TAGKEYS_MON(                     XK_9,            1)
+        TAGKEYS_MON(                     XK_0,            2)
         /* Focus adjacent tag. */
-        { MODKEY,                        XK_minus,        viewtoleft,       {0} },
-        { MODKEY,                        XK_equal,        viewtoright,      {0} },
-        { MODKEY|ShiftMask,              XK_minus,        tagtoleft,        {0} },
-        { MODKEY|ShiftMask,              XK_equal,        tagtoright,       {0} },
+        { MODKEY,                        XK_minus,        viewtoleft,     {0} },
+        { MODKEY,                        XK_equal,        viewtoright,    {0} },
+        { MODKEY|ShiftMask,              XK_minus,        tagtoleft,      {0} },
+        { MODKEY|ShiftMask,              XK_equal,        tagtoright,     {0} },
         /* Multi monitors. */
         { WINKEY,                        XK_minus,        focusmon,       {.i = -1 } },
         { WINKEY,                        XK_equal,        focusmon,       {.i = +1 } },
         { WINKEY|ShiftMask,              XK_minus,        tagmon,         {.i = -1 } },
         { WINKEY|ShiftMask,              XK_equal,        tagmon,         {.i = +1 } },
-        { WINKEY,                        XK_8,            focusmonsp,     {.i = 0 } },
-        { WINKEY,                        XK_9,            focusmonsp,     {.i = 1 } },
-        { WINKEY,                        XK_0,            focusmonsp,     {.i = 2 } },
+        { WINKEY,                        XK_comma,        focusmonsp,     {.i = 0 } },
+        { WINKEY,                        XK_period,       focusmonsp,     {.i = 1 } },
+        { WINKEY,                        XK_slash,        focusmonsp,     {.i = 2 } },
+        { WINKEY|ShiftMask,              XK_comma,        tagmonsp,       {.i = 0 } },
+        { WINKEY|ShiftMask,              XK_period,       tagmonsp,       {.i = 1 } },
+        { WINKEY|ShiftMask,              XK_slash,        tagmonsp,       {.i = 2 } },
         { WINKEY,                        XK_grave,        focusmonsp,     {.i = -1 } },
-        { WINKEY|ShiftMask,              XK_8,            tagmonsp,       {.i = 0 } },
-        { WINKEY|ShiftMask,              XK_9,            tagmonsp,       {.i = 1 } },
-        { WINKEY|ShiftMask,              XK_0,            tagmonsp,       {.i = 2 } },
         { WINKEY|ShiftMask,              XK_grave,        tagmonsp,       {.i = -1 } },
         { WINKEY,                        XK_7,            viewallmon,     {.ui = ~0 } },
         /* Screenshot. */
@@ -252,14 +271,14 @@ static Key keys[] = {
         { WINKEY|ShiftMask,              XK_p,            spawn,          {.v = ssbordercmd } },
         { WINKEY|ControlMask,            XK_p,            spawn,          {.v = ssdesktopcmd } },
         /* MPD setup. */
-        { WINKEY,                        XK_slash,        spawn,          {.v = mpdtogglecmd } },
-        { WINKEY,                        XK_comma,        spawn,          {.v = mpdseekminuscmd } },
-        { WINKEY,                        XK_period,       spawn,          {.v = mpdseekpluscmd } },
-        { WINKEY|ShiftMask,              XK_slash,        spawn,          {.v = mpdstopcmd } },
-        { WINKEY|ShiftMask,              XK_comma,        spawn,          {.v = mpdprevcmd } },
-        { WINKEY|ShiftMask,              XK_period,       spawn,          {.v = mpdnextcmd } },
-        { WINKEY|ControlMask,            XK_comma,        spawn,          {.v = mpdvoldowncmd } },
-        { WINKEY|ControlMask,            XK_period,       spawn,          {.v = mpdvolupcmd } },
+        { WINKEY,                        XK_backslash,    spawn,          {.v = mpdtogglecmd } },
+        { WINKEY,                        XK_bracketleft,  spawn,          {.v = mpdseekminuscmd } },
+        { WINKEY,                        XK_bracketright, spawn,          {.v = mpdseekpluscmd } },
+        { WINKEY|ShiftMask,              XK_backslash,    spawn,          {.v = mpdstopcmd } },
+        { WINKEY|ShiftMask,              XK_bracketleft,  spawn,          {.v = mpdprevcmd } },
+        { WINKEY|ShiftMask,              XK_bracketright, spawn,          {.v = mpdnextcmd } },
+        { WINKEY|ControlMask,            XK_bracketleft,  spawn,          {.v = mpdvoldowncmd } },
+        { WINKEY|ControlMask,            XK_bracketright, spawn,          {.v = mpdvolupcmd } },
         /* Mouse */
         { WINKEY|MODKEY,                 XK_h,            spawn,          SHCMD("exec xdotool mousemove_relative -- -20 0") },
         { WINKEY|MODKEY,                 XK_l,            spawn,          SHCMD("exec xdotool mousemove_relative 20 0") },
