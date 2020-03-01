@@ -98,6 +98,10 @@ static const Layout layouts[] = {
   { MOD, XK_l, setfacts, {.v = (float[]){ INC(G * +0.15), INC(M * +0.30), INC(S * +0.30) } } }, \
   { MOD, XK_backslash, setdirs,  {.v = (int[])  { INC(G * +1),   INC(M * +1),   INC(S * +1) } } }, \
 
+#define TILEBUTTONS(MOD,G,M,S)                                          \
+        { ClkWinTitle, MOD, Button1, setfacts, {.v = (float[]){ INC(G * -0.15), INC(M * -0.30), INC(S * -0.30) } } }, \
+  { ClkWinTitle, MOD, Button3, setfacts, {.v = (float[]){ INC(G * +0.15), INC(M * +0.30), INC(S * +0.30) } } }, \
+
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
@@ -293,15 +297,26 @@ static Key keys[] = {
 /* click can be ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
 static Button buttons[] = {
         /* click                event mask      button          function        argument */
+        TILEBUTTONS(MODKEY,                                 1, 0, 0)
+        TILEBUTTONS(MODKEY|ControlMask,                     0, 1, 0)
+        TILEBUTTONS(MODKEY|ShiftMask,                       0, 0, 1)
+        TILEBUTTONS(MODKEY|ControlMask|ShiftMask,           1, 1, 1)
         { ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
         { ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
         { ClkWinTitle,          0,              Button2,        zoom,           {0} },
+        { ClkWinTitle,          0,              Button1,        focusstack,     {.i = INC(-1) } },
+        { ClkWinTitle,          0,              Button3,        focusstack,     {.i = INC(+1) } },
+        { ClkStatusText,        0,              Button1,        spawn,          {.v = rofiruncmd } },
+        { ClkStatusText,        ShiftMask,      Button1,        spawn,          {.v = dmenucmd } },
         { ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
-        /* { ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} }, */
-        /* { ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} }, */
-        /* { ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} }, */
+        { ClkStatusText,        ShiftMask,      Button2,        togglescratch,  {.v = scratchpadcmd } },
+        { ClkStatusText,        0,              Button3,        killclient,     {0} },
+        { ClkStatusText,        ShiftMask,      Button3,        quit,           {0} },
+        { ClkClientWin,         WINKEY,         Button1,        movemouse,      {0} },
+        { ClkClientWin,         WINKEY,         Button2,        togglefloating, {0} },
+        { ClkClientWin,         WINKEY,         Button3,        resizemouse,    {0} },
         { ClkTagBar,            0,              Button1,        view,           {0} },
         { ClkTagBar,            0,              Button3,        toggleview,     {0} },
-        { ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
-        { ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
+        { ClkTagBar,            ShiftMask,      Button1,        tag,            {0} },
+        { ClkTagBar,            ShiftMask,      Button3,        toggletag,      {0} },
 };
