@@ -101,9 +101,10 @@ static const Layout layouts[] = {
 #define TILEBUTTONS(MOD,G,M,S)                                          \
         { ClkWinTitle, MOD, Button1, setfacts, {.v = (float[]){ INC(G * -0.15), INC(M * -0.30), INC(S * -0.30) } } }, \
   { ClkWinTitle, MOD, Button3, setfacts, {.v = (float[]){ INC(G * +0.15), INC(M * +0.30), INC(S * +0.30) } } }, \
+  { ClkWinTitle, MOD, Button2, setdirs,  {.v = (int[])  { INC(G * +1),   INC(M * +1),   INC(S * +1) } } }, \
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
-#define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
+#define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } } \
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
@@ -302,16 +303,23 @@ static Button buttons[] = {
         TILEBUTTONS(MODKEY|ShiftMask,                       0, 0, 1)
         TILEBUTTONS(MODKEY|ControlMask|ShiftMask,           1, 1, 1)
         { ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
-        { ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
+        { ClkLtSymbol,          ShiftMask,      Button1,        setlayout,      {.v = &layouts[2]} },
+        { ClkLtSymbol,          0,              Button2,        setdirs,        {.v = (int[]){ DirHor, DirVer, DirVer } } },
+        { ClkLtSymbol,          ShiftMask,      Button2,        setdirs,        {.v = (int[]){ DirVer, DirHor, DirHor } } },
+        { ClkLtSymbol,          0,              Button3,        incnmaster,     {.i = +1 } },
+        { ClkLtSymbol,          ShiftMask,      Button3,        incnmaster,     {.i = -1 } },
         { ClkWinTitle,          0,              Button2,        zoom,           {0} },
+        { ClkWinTitle,          ShiftMask,      Button2,        spawn,          {.v = emacsclientcmd } },
         { ClkWinTitle,          0,              Button1,        focusstack,     {.i = INC(-1) } },
+        { ClkWinTitle,          ShiftMask,      Button1,        pushstack,      {.i = INC(-1) } },
         { ClkWinTitle,          0,              Button3,        focusstack,     {.i = INC(+1) } },
+        { ClkWinTitle,          ShiftMask,      Button3,        pushstack,      {.i = INC(+1) } },
         { ClkStatusText,        0,              Button1,        spawn,          {.v = rofiruncmd } },
         { ClkStatusText,        ShiftMask,      Button1,        spawn,          {.v = dmenucmd } },
-        { ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
-        { ClkStatusText,        ShiftMask,      Button2,        togglescratch,  {.v = scratchpadcmd } },
-        { ClkStatusText,        0,              Button3,        killclient,     {0} },
-        { ClkStatusText,        ShiftMask,      Button3,        quit,           {0} },
+        { ClkStatusText,        0,              Button2,        killclient,     {0} },
+        { ClkStatusText,        ShiftMask,      Button2,        quit,           {0} },
+        { ClkStatusText,        0,              Button3,        spawn,          {.v = termcmd } },
+        { ClkStatusText,        ShiftMask,      Button3,        togglescratch,  {.v = scratchpadcmd } },
         { ClkClientWin,         WINKEY,         Button1,        movemouse,      {0} },
         { ClkClientWin,         WINKEY,         Button2,        togglefloating, {0} },
         { ClkClientWin,         WINKEY,         Button3,        resizemouse,    {0} },
