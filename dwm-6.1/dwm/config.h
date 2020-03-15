@@ -31,7 +31,6 @@ static const Rule rules[] = {
          *      WM_NAME(STRING) = title
          */
         /* class      instance    title       tags mask     isfloating   monitor */
-        { "qpdfview", NULL,       NULL,       0,            False,        1 },
         { "Wps",      NULL,       NULL,       0,            False,        1 },
         { "Et",       NULL,       NULL,       0,            False,        1 },
         { "Wpp",      NULL,       NULL,       0,            False,        1 },
@@ -289,9 +288,9 @@ static Key keys[] = {
         { WINKEY|ControlMask,            XK_l,            spawn,          SHCMD("exec xdotool mousemove_relative 20 0") },
         { WINKEY|ControlMask,            XK_k,            spawn,          SHCMD("exec xdotool mousemove_relative -- 0 -20") },
         { WINKEY|ControlMask,            XK_j,            spawn,          SHCMD("exec xdotool mousemove_relative 0 20") },
-        { WINKEY|ControlMask,            XK_u,            spawn,          SHCMD("exec xdotool click 1") },
-        { WINKEY|ControlMask,            XK_i,            spawn,          SHCMD("exec xdotool click 2") },
-        { WINKEY|ControlMask,            XK_o,            spawn,          SHCMD("exec xdotool click 3") },
+        { WINKEY|ControlMask,            XK_u,            spawn,          SHCMD("exec xdotool click --clearmodifiers 1") },
+        { WINKEY|ControlMask,            XK_i,            spawn,          SHCMD("exec xdotool click --clearmodifiers 2") },
+        { WINKEY|ControlMask,            XK_o,            spawn,          SHCMD("exec xdotool click --clearmodifiers 3") },
 };
 
 /* button definitions */
