@@ -1,8 +1,8 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const char *fonts[]          = {"Sans:size=10"};
-static const char dmenufont[]       = "Sans:size=10";
+static const char *fonts[]          = {"WenQuanYi Micro Hei:size=10"};
+static const char dmenufont[]       = "WenQuanYi Micro Hei:size=10";
 static const char normbordercolor[] = "#222222";
 static const char normbgcolor[]     = "#222222";
 static const char normfgcolor[]     = "#bbbbbb";
