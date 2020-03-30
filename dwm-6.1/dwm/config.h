@@ -108,7 +108,7 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[]        = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
-static const char *rofiruncmd[]      = { "rofi", "-show", "run", NULL };
+static const char *rofiruncmd[]      = { "rofi", "rnow", "-run-command", "zsh -is eval '{cmd}'", "-show", "run", NULL };
 static const char *rofidruncmd[]     = { "rofi", "-show", "drun", NULL };
 static const char *rofiwincmd[]      = { "rofi", "-show", "window", NULL };
 static const char *rofipowercmd[]    = { "rofi-power", NULL };
