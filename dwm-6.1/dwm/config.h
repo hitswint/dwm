@@ -31,10 +31,10 @@ static const Rule rules[] = {
          *      WM_NAME(STRING) = title
          */
         /* class      instance    title       tags mask     isfloating   monitor */
-        { "Wps",      NULL,       NULL,       0,            False,        1 },
-        { "Et",       NULL,       NULL,       0,            False,        1 },
-        { "Wpp",      NULL,       NULL,       0,            False,        1 },
-        { "Wine",     NULL,       NULL,       0,            False,        1 },
+        { "Wps",      NULL,       NULL,       0,            False,       -1 },
+        { "Et",       NULL,       NULL,       0,            False,       -1 },
+        { "Wpp",      NULL,       NULL,       0,            False,       -1 },
+        { "Wine",     NULL,       NULL,       0,            False,       -1 },
         { "Firefox",  NULL,       NULL,       1 << 2,       False,        1 },
         { "Emacs",    "emacs",    NULL,       1 << 1,       False,       -1 },
         { "Emacs",    "ec_float", NULL,       0,            True,        -1 },
