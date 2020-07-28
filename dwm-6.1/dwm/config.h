@@ -147,6 +147,7 @@ static const char *ec_editcmd[]      = { "external-edit", "-e", "emacsclient", N
 static const char *ec_editselcmd[]   = { "external-edit", "-s", "-e", "emacsclient", NULL };
 static const char *xclipcopycmd[]    = { "xclipcopy.sh", NULL };
 static const char *xclippastecmd[]   = { "xclippaste.sh", NULL };
+static const char *inputchinesecmd[] = { "inputchinese.sh", NULL };
 
 static Key keys[] = {
         /* modifier                      key             function         argument */
@@ -199,6 +200,7 @@ static Key keys[] = {
         { WINKEY|ShiftMask,              XK_Tab,          spawn,          {.v = switchcmd } },
         { WINKEY,                        XK_w,            spawn,          {.v = xclipcopycmd } },
         { WINKEY,                        XK_y,            spawn,          {.v = xclippastecmd } },
+        { WINKEY,                        XK_c,            spawn,          {.v = inputchinesecmd } },
         { WINKEY|ControlMask,            XK_y,            spawn,          {.v = ec_killringcmd } },
         { WINKEY,                        XK_d,            spawn,          {.v = ec_sdcvcmd } },
         { WINKEY|ShiftMask,              XK_d,            spawn,          {.v = ec_onlinecmd } },
