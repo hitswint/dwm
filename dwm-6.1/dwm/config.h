@@ -134,6 +134,8 @@ static const char *slockcmd[]        = { "slock", NULL };
 static const char *ssdesktopcmd[]    = { "screenshot.sh", "d", NULL };
 static const char *ssbordercmd[]     = { "screenshot.sh", "w", NULL };
 static const char *ssselectcmd[]     = { "screenshot.sh", "s", NULL };
+static const char *ssocrengcmd[]     = { "screenshot_ocr.sh", "eng", NULL };
+static const char *ssocrchicmd[]     = { "screenshot_ocr.sh", "chi_sim", NULL };
 static const char *emacsclientcmd[]  = { "run-or-raise.sh", "emacs", "ec.sh", NULL };
 static const char *firefoxcmd[]      = { "firefox", NULL, NULL, NULL, "Firefox" };
 static const char *switchcmd[]       = { "switcher", NULL };
@@ -271,6 +273,8 @@ static Key keys[] = {
         { WINKEY,                        XK_p,            spawn,          {.v = ssselectcmd } },
         { WINKEY|ShiftMask,              XK_p,            spawn,          {.v = ssbordercmd } },
         { WINKEY|ControlMask,            XK_p,            spawn,          {.v = ssdesktopcmd } },
+        { WINKEY|MODKEY,                 XK_p,            spawn,          {.v = ssocrchicmd } },
+        { WINKEY|MODKEY|ShiftMask,       XK_p,            spawn,          {.v = ssocrengcmd } },
         /* MPD setup. */
         { WINKEY,                        XK_Left,         spawn,          {.v = mpdseekminuscmd } },
         { WINKEY,                        XK_Right,        spawn,          {.v = mpdseekpluscmd } },
