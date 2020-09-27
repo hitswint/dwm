@@ -1,22 +1,22 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const char *fonts[]          = {"WenQuanYi Micro Hei:size=10"};
-static const char dmenufont[]       = "WenQuanYi Micro Hei:size=10";
+static const char *fonts[]          = {"WenQuanYi Micro Hei:size=12"};
+static const char dmenufont[]       = "WenQuanYi Micro Hei:size=12";
 static const char normbordercolor[] = "#222222";
 static const char normbgcolor[]     = "#222222";
-static const char normfgcolor[]     = "#bbbbbb";
-static const char selbordercolor[]  = "deep sky blue";
+static const char normfgcolor[]     = "#dddddd";
+static const char selbordercolor[]  = "DeepSkyBlue";
 static const char selbgcolor[]      = "#005577";
-static const char selfgcolor[]      = "#eeeeee";
+static const char selfgcolor[]      = "#ffffff";
 static const char normmarkcolor[]   = "dark green"; /*border color for marked client*/
 static const char selmarkcolor[]    = "green"; /*border color for marked client on focus*/
 static const char floatnormbordercolor[] = "dark red";
 static const char floatselbordercolor[]  = "red";
-static const unsigned int borderpx  = 2;        /* border pixel of windows */
+static const unsigned int borderpx  = 3;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
-static const unsigned int systrayspacing = 2;   /* systray spacing */
+static const unsigned int systrayspacing = 1;   /* systray spacing */
 static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, 0: display systray on the last monitor*/
 static const int showsystray        = 1;        /* 0 means no systray */
 static const int showbar            = 1;        /* 0 means no bar */
