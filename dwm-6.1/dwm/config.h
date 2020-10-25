@@ -115,8 +115,8 @@ static const char *rofipowercmd[]    = { "rofi-power", NULL };
 static const char *termcmd[]         = { "urxvt", NULL };
 static const char scratchpadname[]   = "scratchpad";
 static const char *scratchpadcmd[]   = { "urxvt", "-name", scratchpadname, NULL };
-static const char *amixervoldowncmd[]= { "amixer", "-q", "sset", "Master", "5-", "unmute", NULL };
-static const char *amixervolupcmd[]  = { "amixer", "-q", "sset", "Master", "5+", "unmute", NULL };
+static const char *amixervoldowncmd[]= { "amixer", "-q", "sset", "Master", "5%-", "unmute", NULL };
+static const char *amixervolupcmd[]  = { "amixer", "-q", "sset", "Master", "5%+", "unmute", NULL };
 static const char *amixermutecmd[]   = { "amixer", "-q", "sset", "Master", "toggle", NULL };
 static const char *pactlvoldowncmd[] = { "pactl", "set-sink-volume", "0", "-5%", NULL };
 static const char *pactlvolupcmd[]   = { "pactl", "set-sink-volume", "0", "+5%", NULL };
@@ -162,16 +162,16 @@ static Key keys[] = {
         TILEKEYS(MODKEY|ShiftMask,                       0, 0, 1)
         TILEKEYS(MODKEY|ControlMask|ShiftMask,           1, 1, 1)
         /* Sound cmd. */
-        { ShiftMask,                     0x1008FF11,      spawn,          {.v = amixervoldowncmd } },
-        { ShiftMask,                     0x1008FF13,      spawn,          {.v = amixervolupcmd } },
-        { ShiftMask,                     0x1008FF12,      spawn,          {.v = amixermutecmd } },
         { 0,                             0x1008FF11,      spawn,          {.v = pactlvoldowncmd } },
         { 0,                             0x1008FF13,      spawn,          {.v = pactlvolupcmd } },
         { 0,                             0x1008FF12,      spawn,          {.v = pactlmutecmd } },
         { WINKEY,                        0x1008FF12,      spawn,          {.v = pactlmicmutecmd } },
-        { WINKEY|ControlMask,            XK_minus,        spawn,          {.v = pactlvoldowncmd } },
-        { WINKEY|ControlMask,            XK_equal,        spawn,          {.v = pactlvolupcmd } },
-        { WINKEY|ControlMask,            XK_BackSpace,    spawn,          {.v = pactlmutecmd } },
+        { ShiftMask,                     0x1008FF11,      spawn,          {.v = amixervoldowncmd } },
+        { ShiftMask,                     0x1008FF13,      spawn,          {.v = amixervolupcmd } },
+        { ShiftMask,                     0x1008FF12,      spawn,          {.v = amixermutecmd } },
+        { WINKEY|ControlMask,            XK_minus,        spawn,          {.v = amixervoldowncmd } },
+        { WINKEY|ControlMask,            XK_equal,        spawn,          {.v = amixervolupcmd } },
+        { WINKEY|ControlMask,            XK_BackSpace,    spawn,          {.v = amixermutecmd } },
         /* Set layout. */
         { WINKEY,                        XK_b,            togglebar,      {0} },
         { WINKEY,                        XK_space,        setlayout,      {0} },
