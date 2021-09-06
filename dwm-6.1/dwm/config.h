@@ -36,8 +36,9 @@ static const Rule rules[] = {
         { "Wpp",      NULL,       NULL,       0,            False,       -1 },
         { "Wine",     NULL,       NULL,       0,            False,       -1 },
         { "Firefox",  NULL,       NULL,       1 << 2,       False,        1 },
-        { "Emacs",    "emacs",    NULL,       1 << 1,       False,       -1 },
+        { "Emacs",    "emacs",    NULL,       1 << 1,       False,        0 },
         { "Emacs",    "ec_float", NULL,       0,            True,        -1 },
+        { "copyq",    NULL,       NULL,       0,            True,        -1 },
 };
 
 /* layout(s) */
