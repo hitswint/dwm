@@ -35,7 +35,7 @@ static const Rule rules[] = {
         { "Et",       NULL,       NULL,       0,            False,       -1 },
         { "Wpp",      NULL,       NULL,       0,            False,       -1 },
         { "Wine",     NULL,       NULL,       0,            False,       -1 },
-        { "Firefox",  NULL,       NULL,       1 << 2,       False,        1 },
+        { "firefox",  NULL,       NULL,       1 << 2,       False,        1 },
         { "Emacs",    "emacs",    NULL,       1 << 1,       False,        0 },
         { "Emacs",    "ec_float", NULL,       0,            True,        -1 },
         { "copyq",    NULL,       NULL,       0,            True,        -1 },
@@ -119,6 +119,8 @@ static const char *keynavcmd[]       = { "keynav.sh", NULL };
 static const char *termcmd[]         = { "urxvt", NULL };
 static const char scratchpadname[]   = "scratchpad";
 static const char *scratchpadcmd[]   = { "urxvt", "-name", scratchpadname, NULL };
+static const char *backlightdowncmd[]= { "brightnessctl", "set", "5%-", NULL };
+static const char *backlightupcmd[]  = { "brightnessctl", "set", "5%+", NULL };
 static const char *amixervoldowncmd[]= { "amixer", "-q", "sset", "Master", "5%-", "unmute", NULL };
 static const char *amixervolupcmd[]  = { "amixer", "-q", "sset", "Master", "5%+", "unmute", NULL };
 static const char *amixermutecmd[]   = { "amixer", "-q", "sset", "Master", "toggle", NULL };
@@ -141,7 +143,7 @@ static const char *ssselectcmd[]     = { "screenshot.sh", "s", NULL };
 static const char *ssocrengcmd[]     = { "screenshot_ocr.sh", "eng", NULL };
 static const char *ssocrchicmd[]     = { "screenshot_ocr.sh", "chi_sim", NULL };
 static const char *emacsclientcmd[]  = { "run-or-raise.sh", "emacs", "ec.sh", NULL };
-static const char *firefoxcmd[]      = { "firefox", NULL, NULL, NULL, "Firefox" };
+static const char *firefoxcmd[]      = { "firefox", NULL, NULL, NULL, "firefox" };
 static const char *switchcmd[]       = { "switcher", NULL };
 static const char *ec_killringcmd[]  = { "ec_killring.sh", NULL };
 static const char *ec_sdcvcmd[]      = { "ec_sdcv.sh", NULL };
@@ -165,6 +167,7 @@ static Key keys[] = {
         TILEKEYS(MODKEY|ControlMask,                     0, 1, 0)
         TILEKEYS(MODKEY|ShiftMask,                       0, 0, 1)
         TILEKEYS(MODKEY|ControlMask|ShiftMask,           1, 1, 1)
+        /* https://cgit.freedesktop.org/xorg/proto/x11proto/tree/XF86keysym.h */
         /* Sound cmd. */
         { 0,                             0x1008FF11,      spawn,          {.v = pactlvoldowncmd } },
         { 0,                             0x1008FF13,      spawn,          {.v = pactlvolupcmd } },
@@ -176,6 +179,9 @@ static Key keys[] = {
         { WINKEY|ControlMask,            XK_minus,        spawn,          {.v = amixervoldowncmd } },
         { WINKEY|ControlMask,            XK_equal,        spawn,          {.v = amixervolupcmd } },
         { WINKEY|ControlMask,            XK_BackSpace,    spawn,          {.v = amixermutecmd } },
+        /* Backlight cmd. */
+        { 0,                             0x1008FF03,      spawn,          {.v = backlightdowncmd } },
+        { 0,                             0x1008FF02,      spawn,          {.v = backlightupcmd } },
         /* Set layout. */
         { WINKEY,                        XK_b,            togglebar,      {0} },
         { WINKEY,                        XK_space,        setlayout,      {0} },
