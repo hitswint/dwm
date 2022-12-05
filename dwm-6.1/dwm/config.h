@@ -115,14 +115,16 @@ static const char *rofiwincmd[]      = { "rofi.sh", "-show", "window", NULL };
 static const char *rofisshcmd[]      = { "rofi.sh", "-show", "ssh", NULL };
 static const char *rofipowercmd[]    = { "rofi-power.sh", NULL };
 static const char *roficlipcmd[]     = { "rofi-clip.sh", NULL };
-static const char *rofitranssdcvcmd[]= { "rofi_trans.sh", "sdcv", NULL };
-static const char *rofitransydcvcmd[]= { "rofi_trans.sh", "ydcv", NULL };
+static const char *roficalccmd[]     = { "rofi-calc.sh", NULL };
+static const char *rofitranscmd[]    = { "rofi-trans.sh", NULL };
+static const char *rofipasscmd[]     = { "rofi-pass.sh", NULL };
 static const char *keynavcmd[]       = { "keynav.sh", NULL };
 static const char *termcmd[]         = { "urxvt", NULL };
 static const char scratchpadname[]   = "scratchpad";
 static const char *scratchpadcmd[]   = { "urxvt", "-name", scratchpadname, NULL };
-static const char *backlightdowncmd[]= { "brightnessctl", "set", "5%-", NULL };
-static const char *backlightupcmd[]  = { "brightnessctl", "set", "5%+", NULL };
+static const char *backlightdowncmd[]= { "backlight.sh", "down", NULL };
+static const char *backlightupcmd[]  = { "backlight.sh", "up", NULL };
+static const char *backlightoffcmd[] = { "backlight.sh", "off", NULL };
 static const char *amixervoldowncmd[]= { "amixer", "-q", "sset", "Master", "5%-", "unmute", NULL };
 static const char *amixervolupcmd[]  = { "amixer", "-q", "sset", "Master", "5%+", "unmute", NULL };
 static const char *amixermutecmd[]   = { "amixer", "-q", "sset", "Master", "toggle", NULL };
@@ -147,10 +149,9 @@ static const char *ssocrchicmd[]     = { "screenshot_ocr.sh", "chi_sim", NULL };
 static const char *emacsclientcmd[]  = { "run-or-raise.sh", "emacs", "ec.sh", NULL };
 static const char *firefoxcmd[]      = { "firefox", NULL, NULL, NULL, "firefox" };
 static const char *switchcmd[]       = { "switcher", NULL };
+static const char *ec_dictcmd[]      = { "ec_dict.sh", NULL };
+static const char *ec_examplecmd[]   = { "ec_example.sh", NULL };
 static const char *ec_killringcmd[]  = { "ec_killring.sh", NULL };
-static const char *ec_sdcvcmd[]      = { "ec_sdcv.sh", NULL };
-static const char *ec_onlinecmd[]    = { "ec_online.sh", NULL };
-static const char *ec_samplecmd[]    = { "ec_sample.sh", NULL };
 static const char *ec_ffbmkscmd[]    = { "ec_ffbmks.sh", NULL };
 static const char *ec_ffhistcmd[]    = { "ec_ffhist.sh", NULL };
 static const char *ec_editcmd[]      = { "external-edit", "-e", "emacsclient", NULL };
@@ -178,34 +179,35 @@ static Key keys[] = {
         { ShiftMask,                     0x1008FF11,      spawn,          {.v = amixervoldowncmd } },
         { ShiftMask,                     0x1008FF13,      spawn,          {.v = amixervolupcmd } },
         { ShiftMask,                     0x1008FF12,      spawn,          {.v = amixermutecmd } },
-        { WINKEY,                        XK_Page_Down,    spawn,          {.v = amixervoldowncmd } },
         { WINKEY,                        XK_Page_Up,      spawn,          {.v = amixervolupcmd } },
+        { WINKEY,                        XK_Page_Down,    spawn,          {.v = amixervoldowncmd } },
         { WINKEY,                        XK_Delete,       spawn,          {.v = amixermutecmd } },
         /* Backlight cmd. */
         { 0,                             0x1008FF03,      spawn,          {.v = backlightdowncmd } },
         { 0,                             0x1008FF02,      spawn,          {.v = backlightupcmd } },
-        { WINKEY|ShiftMask,              XK_Page_Down,    spawn,          {.v = backlightdowncmd } },
         { WINKEY|ShiftMask,              XK_Page_Up,      spawn,          {.v = backlightupcmd } },
+        { WINKEY|ShiftMask,              XK_Page_Down,    spawn,          {.v = backlightdowncmd } },
+        { WINKEY|ShiftMask,              XK_Delete,       spawn,          {.v = backlightoffcmd } },
         /* Set layout. */
         { WINKEY,                        XK_b,            togglebar,      {0} },
         { WINKEY,                        XK_space,        setlayout,      {0} },
-        { WINKEY|ControlMask,            XK_space,        setlayout,      {.v = &layouts[0]} },
-        { WINKEY|ShiftMask,              XK_space,        setlayout,      {.v = &layouts[1]} },
-        { WINKEY|ControlMask|ShiftMask,  XK_space,        setlayout,      {.v = &layouts[2]} },
+        { WINKEY|ControlMask,            XK_space,        setlayout,      {.v = &layouts[0] } },
+        { WINKEY|ShiftMask,              XK_space,        setlayout,      {.v = &layouts[1] } },
+        { WINKEY|ControlMask|ShiftMask,  XK_space,        setlayout,      {.v = &layouts[2] } },
         { MODKEY|ControlMask,            XK_space,        togglefloating, {0} },
         { WINKEY|ControlMask,            XK_minus,        incnmaster,     {.i = -1 } },
         { WINKEY|ControlMask,            XK_equal,        incnmaster,     {.i = +1 } },
-        { WINKEY|ControlMask,            XK_BackSpace,    setnmaster,     {.i = 0} },
-        { WINKEY|ControlMask,            XK_1,            setnmaster,     {.i = 1} },
-        { WINKEY|ControlMask,            XK_2,            setnmaster,     {.i = 2} },
-        { WINKEY|ControlMask,            XK_3,            setnmaster,     {.i = 3} },
-        { WINKEY|ControlMask,            XK_4,            setnmaster,     {.i = 4} },
-        { WINKEY|ControlMask,            XK_5,            setnmaster,     {.i = 5} },
-        { WINKEY|ControlMask,            XK_6,            setnmaster,     {.i = 6} },
+        { WINKEY|ControlMask,            XK_BackSpace,    setnmaster,     {.i = 0 } },
+        { WINKEY|ControlMask,            XK_1,            setnmaster,     {.i = 1 } },
+        { WINKEY|ControlMask,            XK_2,            setnmaster,     {.i = 2 } },
+        { WINKEY|ControlMask,            XK_3,            setnmaster,     {.i = 3 } },
+        { WINKEY|ControlMask,            XK_4,            setnmaster,     {.i = 4 } },
+        { WINKEY|ControlMask,            XK_5,            setnmaster,     {.i = 5 } },
+        { WINKEY|ControlMask,            XK_6,            setnmaster,     {.i = 6 } },
         { WINKEY,                        XK_backslash,    setdirs,        {.v = (int[]){ DirHor, DirVer, DirVer } } },
         { WINKEY|ShiftMask,              XK_backslash,    setdirs,        {.v = (int[]){ DirVer, DirHor, DirHor } } },
         /* Cmd. */
-        { WINKEY,                        XK_s,            spawn,          {.v = slockcmd } },
+        { WINKEY,                        XK_z,            spawn,          {.v = slockcmd } },
         { WINKEY,                        XK_Return,       spawn,          {.v = termcmd } },
         { WINKEY|ShiftMask,              XK_Return,       togglescratch,  {.v = scratchpadcmd } },
         { WINKEY,                        XK_apostrophe,   spawn,          {.v = ec_ffbmkscmd } },
@@ -220,12 +222,12 @@ static Key keys[] = {
         { WINKEY,                        XK_y,            spawn,          {.v = xclippastecmd } },
         { WINKEY|ShiftMask,              XK_y,            spawn,          {.v = ec_killringcmd } },
         { WINKEY|ControlMask,            XK_y,            spawn,          {.v = roficlipcmd } },
+        { WINKEY,                        XK_c,            spawn,          {.v = roficalccmd } },
+        { WINKEY,                        XK_p,            spawn,          {.v = rofipasscmd } },
         { WINKEY,                        XK_n,            spawn,          {.v = keynavcmd } },
-        { WINKEY,                        XK_d,            spawn,          {.v = ec_sdcvcmd } },
-        { WINKEY|ShiftMask,              XK_d,            spawn,          {.v = ec_onlinecmd } },
-        { WINKEY|ControlMask,            XK_d,            spawn,          {.v = ec_samplecmd } },
-        { WINKEY,                        XK_c,            spawn,          {.v = rofitranssdcvcmd } },
-        { WINKEY|ShiftMask,              XK_c,            spawn,          {.v = rofitransydcvcmd } },
+        { WINKEY,                        XK_d,            spawn,          {.v = rofitranscmd } },
+        { WINKEY|ShiftMask,              XK_d,            spawn,          {.v = ec_dictcmd } },
+        { WINKEY|ControlMask,            XK_d,            spawn,          {.v = ec_examplecmd } },
         { WINKEY,                        XK_e,            spawn,          {.v = inputchinesecmd } },
         { WINKEY|ShiftMask,              XK_e,            spawn,          {.v = ec_editcmd } },
         { WINKEY|ControlMask,            XK_e,            spawn,          {.v = ec_editselcmd } },
@@ -238,23 +240,23 @@ static Key keys[] = {
         { WINKEY|ShiftMask,              XK_m,            togglehorizontalmax, {0} },
         { WINKEY|ControlMask,            XK_m,            togglemaximize, {0} },
         /* Moveresize. */
-        { WINKEY,                        XK_k,            moveresize,     {.v = "0x -50y 0w 0h"} },
-        { WINKEY,                        XK_j,            moveresize,     {.v = "0x 50y 0w 0h"} },
-        { WINKEY,                        XK_h,            moveresize,     {.v = "-50x 0y 0w 0h"} },
-        { WINKEY,                        XK_l,            moveresize,     {.v = "50x 0y 0w 0h"} },
-        { WINKEY|ShiftMask,              XK_k,            moveresize,     {.v = "0x 0y 0w -50h"} },
-        { WINKEY|ShiftMask,              XK_j,            moveresize,     {.v = "0x 0y 0w 50h"} },
-        { WINKEY|ShiftMask,              XK_h,            moveresize,     {.v = "0x 0y -50w 0h"} },
-        { WINKEY|ShiftMask,              XK_l,            moveresize,     {.v = "0x 0y 50w 0h"} },
-        { WINKEY|ControlMask,            XK_k,            explace,        {.ui = EX_N  }},
-        { WINKEY|ControlMask,            XK_j,            explace,        {.ui = EX_S  }},
-        { WINKEY|ControlMask,            XK_h,            explace,        {.ui = EX_W  }},
-        { WINKEY|ControlMask,            XK_l,            explace,        {.ui = EX_E  }},
+        { WINKEY|ShiftMask,              XK_k,            moveresize,     {.v = "0x 0y 0w -50h" } },
+        { WINKEY|ShiftMask,              XK_j,            moveresize,     {.v = "0x 0y 0w 50h" } },
+        { WINKEY|ShiftMask,              XK_h,            moveresize,     {.v = "0x 0y -50w 0h" } },
+        { WINKEY|ShiftMask,              XK_l,            moveresize,     {.v = "0x 0y 50w 0h" } },
+        { WINKEY|ControlMask,            XK_k,            moveresize,     {.v = "0x -50y 0w 0h" } },
+        { WINKEY|ControlMask,            XK_j,            moveresize,     {.v = "0x 50y 0w 0h" } },
+        { WINKEY|ControlMask,            XK_h,            moveresize,     {.v = "-50x 0y 0w 0h" } },
+        { WINKEY|ControlMask,            XK_l,            moveresize,     {.v = "50x 0y 0w 0h" } },
+        { WINKEY|ControlMask|ShiftMask,  XK_k,            explace,        {.ui = EX_N } },
+        { WINKEY|ControlMask|ShiftMask,  XK_j,            explace,        {.ui = EX_S } },
+        { WINKEY|ControlMask|ShiftMask,  XK_h,            explace,        {.ui = EX_W } },
+        { WINKEY|ControlMask|ShiftMask,  XK_l,            explace,        {.ui = EX_E } },
         /* Exresize. */
-        { WINKEY,                        XK_bracketleft,  exresize,       {.v = (int []){ -50,   0 }}},
-        { WINKEY,                        XK_bracketright, exresize,       {.v = (int []){  50,   0 }}},
-        { WINKEY|ShiftMask,              XK_bracketleft,  exresize,       {.v = (int []){   0, -50 }}},
-        { WINKEY|ShiftMask,              XK_bracketright, exresize,       {.v = (int []){   0,  50 }}},
+        { WINKEY,                        XK_bracketleft,  exresize,       {.v = (int []){ -50,   0 } } },
+        { WINKEY,                        XK_bracketright, exresize,       {.v = (int []){  50,   0 } } },
+        { WINKEY|ShiftMask,              XK_bracketleft,  exresize,       {.v = (int []){   0, -50 } } },
+        { WINKEY|ShiftMask,              XK_bracketright, exresize,       {.v = (int []){   0,  50 } } },
         /* Mark. */
         { WINKEY,                        XK_semicolon,    swapfocus,      {0} },
         { WINKEY|ShiftMask,              XK_semicolon,    swapclient,     {0} },
@@ -295,11 +297,11 @@ static Key keys[] = {
         { WINKEY|ShiftMask,              XK_grave,        tagmonsp,       {.i = -1 } },
         { WINKEY,                        XK_7,            viewallmon,     {.ui = ~0 } },
         /* Screenshot. */
-        { WINKEY,                        XK_p,            spawn,          {.v = ssselectcmd } },
-        { WINKEY|ShiftMask,              XK_p,            spawn,          {.v = ssbordercmd } },
-        { WINKEY|ControlMask,            XK_p,            spawn,          {.v = ssdesktopcmd } },
-        { WINKEY|MODKEY,                 XK_p,            spawn,          {.v = ssocrchicmd } },
-        { WINKEY|MODKEY|ShiftMask,       XK_p,            spawn,          {.v = ssocrengcmd } },
+        { WINKEY,                        XK_s,            spawn,          {.v = ssselectcmd } },
+        { WINKEY|ShiftMask,              XK_s,            spawn,          {.v = ssbordercmd } },
+        { WINKEY|ControlMask,            XK_s,            spawn,          {.v = ssdesktopcmd } },
+        { WINKEY|ShiftMask,              XK_w,            spawn,          {.v = ssocrengcmd } },
+        { WINKEY|ControlMask,            XK_w,            spawn,          {.v = ssocrchicmd } },
         /* MPD setup. */
         { WINKEY,                        XK_Left,         spawn,          {.v = mpdseekminuscmd } },
         { WINKEY,                        XK_Right,        spawn,          {.v = mpdseekpluscmd } },
@@ -309,14 +311,20 @@ static Key keys[] = {
         { WINKEY|ShiftMask,              XK_Right,        spawn,          {.v = mpdnextcmd } },
         { WINKEY|ControlMask,            XK_Up,           spawn,          {.v = mpdvoldowncmd } },
         { WINKEY|ControlMask,            XK_Down,         spawn,          {.v = mpdvolupcmd } },
+        { 0,                             0x1008FF16,      spawn,          {.v = mpdseekminuscmd } },
+        { 0,                             0x1008FF17,      spawn,          {.v = mpdseekpluscmd } },
+        { 0,                             0x1008FF14,      spawn,          {.v = mpdtogglecmd } },
+        { 0,                             0x1008FF15,      spawn,          {.v = mpdstopcmd } },
+        { ShiftMask,                     0x1008FF16,      spawn,          {.v = mpdprevcmd } },
+        { ShiftMask,                     0x1008FF17,      spawn,          {.v = mpdnextcmd } },
         /* Mouse */
-        { WINKEY|MODKEY,                 XK_h,            spawn,          SHCMD("exec xdotool mousemove_relative -- -20 0") },
-        { WINKEY|MODKEY,                 XK_l,            spawn,          SHCMD("exec xdotool mousemove_relative 20 0") },
-        { WINKEY|MODKEY,                 XK_k,            spawn,          SHCMD("exec xdotool mousemove_relative -- 0 -20") },
-        { WINKEY|MODKEY,                 XK_j,            spawn,          SHCMD("exec xdotool mousemove_relative 0 20") },
-        { WINKEY,                        XK_u,            spawn,          SHCMD("exec xdotool click --clearmodifiers 1") },
-        { WINKEY,                        XK_i,            spawn,          SHCMD("exec xdotool click --clearmodifiers 2") },
-        { WINKEY,                        XK_o,            spawn,          SHCMD("exec xdotool click --clearmodifiers 3") },
+        { WINKEY,                        XK_h,            spawn,          SHCMD("exec xdotool mousemove_relative -- -20 0" ) },
+        { WINKEY,                        XK_l,            spawn,          SHCMD("exec xdotool mousemove_relative 20 0" ) },
+        { WINKEY,                        XK_k,            spawn,          SHCMD("exec xdotool mousemove_relative -- 0 -20" ) },
+        { WINKEY,                        XK_j,            spawn,          SHCMD("exec xdotool mousemove_relative 0 20" ) },
+        { WINKEY,                        XK_u,            spawn,          SHCMD("exec xdotool click --clearmodifiers 1" ) },
+        { WINKEY,                        XK_i,            spawn,          SHCMD("exec xdotool click --clearmodifiers 2" ) },
+        { WINKEY,                        XK_o,            spawn,          SHCMD("exec xdotool click --clearmodifiers 3" ) },
 };
 
 /* button definitions */
@@ -328,7 +336,7 @@ static Button buttons[] = {
         TILEBUTTONS(MODKEY|ShiftMask,                       0, 0, 1)
         TILEBUTTONS(MODKEY|ControlMask|ShiftMask,           1, 1, 1)
         { ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
-        { ClkLtSymbol,          ShiftMask,      Button1,        setlayout,      {.v = &layouts[2]} },
+        { ClkLtSymbol,          ShiftMask,      Button1,        setlayout,      {.v = &layouts[2] } },
         { ClkLtSymbol,          0,              Button2,        setdirs,        {.v = (int[]){ DirHor, DirVer, DirVer } } },
         { ClkLtSymbol,          ShiftMask,      Button2,        setdirs,        {.v = (int[]){ DirVer, DirHor, DirHor } } },
         { ClkLtSymbol,          0,              Button3,        incnmaster,     {.i = +1 } },

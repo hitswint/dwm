@@ -20,6 +20,9 @@
   Return
   Tab
   BackSpace
+  Page_Down
+  Page_Up
+  Delete
 * dwm-6.0
 * dwm-6.1
   - *编译错误* ：ft2build.h: No such file or directory
