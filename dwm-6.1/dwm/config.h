@@ -155,8 +155,8 @@ static const char *ec_examplecmd[]   = { "ec_example.sh", NULL };
 static const char *ec_killringcmd[]  = { "ec_killring.sh", NULL };
 static const char *ec_ffbmkscmd[]    = { "ec_ffbmks.sh", NULL };
 static const char *ec_ffhistcmd[]    = { "ec_ffhist.sh", NULL };
-static const char *ec_editcmd[]      = { "external-edit", "-e", "emacsclient", NULL };
-static const char *ec_editselcmd[]   = { "external-edit", "-s", "-e", "emacsclient", NULL };
+static const char *ec_editcmd[]      = { "external-edit", "-s", "-e", "emacsclient", NULL };
+static const char *zenitytranscmd[]  = { "zenity-trans.sh", NULL };
 static const char *xclipcopycmd[]    = { "xclipcopy.sh", NULL };
 static const char *xclippastecmd[]   = { "xclippaste.sh", NULL };
 static const char *inputchinesecmd[] = { "inputchinese.sh", NULL };
@@ -232,7 +232,7 @@ static Key keys[] = {
         { WINKEY|ControlMask,            XK_d,            spawn,          {.v = ec_examplecmd } },
         { WINKEY,                        XK_e,            spawn,          {.v = inputchinesecmd } },
         { WINKEY|ShiftMask,              XK_e,            spawn,          {.v = ec_editcmd } },
-        { WINKEY|ControlMask,            XK_e,            spawn,          {.v = ec_editselcmd } },
+        { WINKEY|ControlMask,            XK_e,            spawn,          {.v = zenitytranscmd } },
         /* runorraise */
         /* 修改runorraise使其在不同屏幕间切换 */
         { MODKEY|ShiftMask,              XK_space,        spawn,          {.v = emacsclientcmd } },
