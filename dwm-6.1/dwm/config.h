@@ -34,6 +34,8 @@ static const Rule rules[] = {
         { "Wps",      NULL,       NULL,       0,            False,       -1 },
         { "Et",       NULL,       NULL,       0,            False,       -1 },
         { "Wpp",      NULL,       NULL,       0,            False,       -1 },
+        { "Wpspdf",   NULL,       NULL,       0,            False,       -1 },
+        { "Wpsoffice",NULL,       NULL,       0,            False,       -1 },
         { "Wine",     NULL,       NULL,       0,            False,       -1 },
         { "firefox",  NULL,       NULL,       1 << 2,       False,        1 },
         { "Emacs",    "emacs",    NULL,       1 << 1,       False,        0 },
