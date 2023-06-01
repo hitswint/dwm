@@ -252,10 +252,10 @@ static Key keys[] = {
         { WINKEY|ShiftMask,              XK_j,            moveresize,     {.v = "0x 0y 0w 50h" } },
         { WINKEY|ShiftMask,              XK_h,            moveresize,     {.v = "0x 0y -50w 0h" } },
         { WINKEY|ShiftMask,              XK_l,            moveresize,     {.v = "0x 0y 50w 0h" } },
-        { WINKEY|ControlMask,            XK_k,            explace,        {.ui = EX_N } },
-        { WINKEY|ControlMask,            XK_j,            explace,        {.ui = EX_S } },
-        { WINKEY|ControlMask,            XK_h,            explace,        {.ui = EX_W } },
-        { WINKEY|ControlMask,            XK_l,            explace,        {.ui = EX_E } },
+        { WINKEY|MODKEY,                 XK_k,            explace,        {.ui = EX_N } },
+        { WINKEY|MODKEY,                 XK_j,            explace,        {.ui = EX_S } },
+        { WINKEY|MODKEY,                 XK_h,            explace,        {.ui = EX_W } },
+        { WINKEY|MODKEY,                 XK_l,            explace,        {.ui = EX_E } },
         /* Exresize. */
         { WINKEY,                        XK_bracketleft,  exresize,       {.v = (int []){ -50,   0 } } },
         { WINKEY,                        XK_bracketright, exresize,       {.v = (int []){  50,   0 } } },
@@ -322,13 +322,13 @@ static Key keys[] = {
         { ShiftMask,                     0x1008FF16,      spawn,          {.v = mpdprevcmd } },
         { ShiftMask,                     0x1008FF17,      spawn,          {.v = mpdnextcmd } },
         /* Mouse */
-        { WINKEY|MODKEY,                 XK_h,            spawn,          SHCMD("exec xdotool mousemove_relative -- -20 0" ) },
-        { WINKEY|MODKEY,                 XK_l,            spawn,          SHCMD("exec xdotool mousemove_relative 20 0" ) },
-        { WINKEY|MODKEY,                 XK_k,            spawn,          SHCMD("exec xdotool mousemove_relative -- 0 -20" ) },
-        { WINKEY|MODKEY,                 XK_j,            spawn,          SHCMD("exec xdotool mousemove_relative 0 20" ) },
-        { WINKEY,                        XK_u,            spawn,          SHCMD("exec xdotool click --clearmodifiers 1" ) },
-        { WINKEY,                        XK_i,            spawn,          SHCMD("exec xdotool click --clearmodifiers 2" ) },
-        { WINKEY,                        XK_o,            spawn,          SHCMD("exec xdotool click --clearmodifiers 3" ) },
+        { WINKEY|ControlMask,            XK_h,            spawn,          SHCMD("exec xdotool mousemove_relative -- -20 0" ) },
+        { WINKEY|ControlMask,            XK_l,            spawn,          SHCMD("exec xdotool mousemove_relative 20 0" ) },
+        { WINKEY|ControlMask,            XK_k,            spawn,          SHCMD("exec xdotool mousemove_relative -- 0 -20" ) },
+        { WINKEY|ControlMask,            XK_j,            spawn,          SHCMD("exec xdotool mousemove_relative 0 20" ) },
+        { WINKEY|ControlMask,            XK_u,            spawn,          SHCMD("exec xdotool sleep 0.500 click --clearmodifiers 1" ) },
+        { WINKEY|ControlMask,            XK_i,            spawn,          SHCMD("exec xdotool sleep 0.500 click --clearmodifiers 2" ) },
+        { WINKEY|ControlMask,            XK_o,            spawn,          SHCMD("exec xdotool sleep 0.500 click --clearmodifiers 3" ) },
 };
 
 /* button definitions */
