@@ -335,22 +335,22 @@ static Key keys[] = {
 /* click can be ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
 static Button buttons[] = {
         /* click                event mask      button          function        argument */
-        TILEBUTTONS(MODKEY,                               1, 0, 0)
-        TILEBUTTONS(MODKEY|ControlMask,                   0, 1, 0)
-        TILEBUTTONS(MODKEY|ShiftMask,                     0, 0, 1)
-        TILEBUTTONS(MODKEY|ControlMask|ShiftMask,         1, 1, 1)
+        TILEBUTTONS(0,                                    1, 0, 0)
+        TILEBUTTONS(ControlMask,                          0, 1, 0)
+        TILEBUTTONS(ShiftMask,                            0, 0, 1)
+        TILEBUTTONS(ControlMask|ShiftMask,                1, 1, 1)
         { ClkLtSymbol,             0,                     Button1,        setlayout,      {0} },
         { ClkLtSymbol,             ShiftMask,             Button1,        setlayout,      {.v = &layouts[0] } },
         { ClkLtSymbol,             0,                     Button3,        setlayout,      {.v = &layouts[1] } },
         { ClkLtSymbol,             ShiftMask,             Button3,        setlayout,      {.v = &layouts[2] } },
         { ClkLtSymbol,             0,                     Button2,        setdirs,        {.v = (int[]){ DirHor, DirVer, DirVer } } },
         { ClkLtSymbol,             ShiftMask,             Button2,        setdirs,        {.v = (int[]){ DirVer, DirHor, DirHor } } },
-        { ClkWinTitle,             0,                     Button2,        zoom,           {0} },
-        { ClkWinTitle,             ShiftMask,             Button2,        spawn,          {.v = emacsclientcmd } },
-        { ClkWinTitle,             0,                     Button1,        focusstack,     {.i = INC(-1) } },
-        { ClkWinTitle,             ShiftMask,             Button1,        pushstack,      {.i = INC(-1) } },
-        { ClkWinTitle,             0,                     Button3,        focusstack,     {.i = INC(+1) } },
-        { ClkWinTitle,             ShiftMask,             Button3,        pushstack,      {.i = INC(+1) } },
+        { ClkWinTitle,             MODKEY,                Button2,        focusstack,     {.i = PREVSEL } },
+        { ClkWinTitle,             MODKEY|ShiftMask,      Button2,        pushstack,      {.i = PREVSEL } },
+        { ClkWinTitle,             MODKEY,                Button1,        focusstack,     {.i = INC(-1) } },
+        { ClkWinTitle,             MODKEY|ShiftMask,      Button1,        pushstack,      {.i = INC(-1) } },
+        { ClkWinTitle,             MODKEY,                Button3,        focusstack,     {.i = INC(+1) } },
+        { ClkWinTitle,             MODKEY|ShiftMask,      Button3,        pushstack,      {.i = INC(+1) } },
         { ClkStatusText,           0,                     Button1,        spawn,          {.v = rofiruncmd } },
         { ClkStatusText,           ShiftMask,             Button1,        spawn,          {.v = dmenucmd } },
         { ClkStatusText,           0,                     Button2,        spawn,          {.v = rofipowercmd } },
