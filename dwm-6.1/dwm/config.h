@@ -59,6 +59,8 @@ static const Layout layouts[] = {
         { "[]=",      tile },    /* first entry is default */
         { "[M]",      monocle },
         { "><>",      NULL },    /* no layout function means floating behavior */
+        { "[D]",      deck },
+        { "[DD]",     doubledeck },
 };
 
 /* key definitions */
@@ -121,6 +123,7 @@ static const char *roficalccmd[]     = { "rofi-calc.sh", NULL };
 static const char *rofitranscmd[]    = { "rofi-trans.sh", NULL };
 static const char *rofipasscmd[]     = { "rofi-pass.sh", NULL };
 static const char *keynavcmd[]       = { "keynav.sh", NULL };
+static const char *fsearchcmd[]      = { "fsearch", NULL };
 static const char *termcmd[]         = { "urxvt", NULL };
 static const char scratchpadname[]   = "scratchpad";
 static const char *scratchpadcmd[]   = { "urxvt", "-name", scratchpadname, NULL };
@@ -197,6 +200,8 @@ static Key keys[] = {
         { WINKEY|ControlMask,            XK_space,        setlayout,      {.v = &layouts[0] } },
         { WINKEY|ShiftMask,              XK_space,        setlayout,      {.v = &layouts[1] } },
         { WINKEY|ControlMask|ShiftMask,  XK_space,        setlayout,      {.v = &layouts[2] } },
+        { WINKEY,                        XK_v,            setlayout,      {.v = &layouts[3]} },
+        { WINKEY|ShiftMask,              XK_v,            setlayout,      {.v = &layouts[4]} },
         { MODKEY|ControlMask,            XK_space,        togglefloating, {0} },
         { WINKEY|ControlMask,            XK_minus,        incnmaster,     {.i = -1 } },
         { WINKEY|ControlMask,            XK_equal,        incnmaster,     {.i = +1 } },
@@ -229,6 +234,7 @@ static Key keys[] = {
         { WINKEY,                        XK_c,            spawn,          {.v = roficalccmd } },
         { WINKEY,                        XK_p,            spawn,          {.v = rofipasscmd } },
         { WINKEY,                        XK_n,            spawn,          {.v = keynavcmd } },
+        { WINKEY,                        XK_t,            spawn,          {.v = fsearchcmd } },
         { WINKEY,                        XK_d,            spawn,          {.v = rofitranscmd } },
         { WINKEY|ShiftMask,              XK_d,            spawn,          {.v = ec_dictcmd } },
         { WINKEY|ControlMask,            XK_d,            spawn,          {.v = ec_examplecmd } },
