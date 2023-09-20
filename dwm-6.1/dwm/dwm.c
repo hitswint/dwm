@@ -834,7 +834,7 @@ deck(Monitor *m) {
 
 	if(n > m->nmaster) {
 		mw = m->nmaster ? m->ww * areas[0].fact/2 : 0;
-		snprintf(m->ltsymbol, sizeof m->ltsymbol, "[%d]", n - m->nmaster);
+		snprintf(m->ltsymbol, sizeof m->ltsymbol, "[<%d]", n - m->nmaster);
 	}
 	else
 		mw = m->ww;
@@ -860,7 +860,7 @@ doubledeck(Monitor *m) {
 
 	if(n > m->nmaster) {
 		mw = m->nmaster ? m->ww * areas[0].fact/2 : 0;
-		snprintf(m->ltsymbol, sizeof m->ltsymbol, "[%d/%d]", m->nmaster, n - m->nmaster);
+		snprintf(m->ltsymbol, sizeof m->ltsymbol, "[%d%d]", m->nmaster, n - m->nmaster);
 	}
 	else
 		mw = m->ww;
