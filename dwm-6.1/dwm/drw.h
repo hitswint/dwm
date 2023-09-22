@@ -33,6 +33,7 @@ typedef struct {
 	int screen;
 	Window root;
 	Drawable drawable;
+	Picture picture;
 	GC gc;
 	ClrScheme *scheme;
 	size_t fontcount;
@@ -68,9 +69,12 @@ void drw_cur_free(Drw *, Cur *);
 void drw_setfont(Drw *, Fnt *);
 void drw_setscheme(Drw *, ClrScheme *);
 
+Picture drw_picture_create_resized(Drw *drw, char *src, unsigned int src_w, unsigned int src_h, unsigned int dst_w, unsigned int dst_h);
+
 /* Drawing functions */
 void drw_rect(Drw *, int, int, unsigned int, unsigned int, int, int, int);
 int drw_text(Drw *, int, int, unsigned int, unsigned int, const char *, int);
+void drw_pic(Drw *drw, int x, int y, unsigned int w, unsigned int h, Picture pic);
 
 /* Map functions */
 void drw_map(Drw *, Window, int, int, unsigned int, unsigned int);
