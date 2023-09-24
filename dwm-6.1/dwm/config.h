@@ -42,8 +42,8 @@ static const Rule rules[] = {
         { "Wpsoffice",NULL,       NULL,       0,            False,       -1 },
         { "Wine",     NULL,       NULL,       0,            False,       -1 },
         { "firefox",  NULL,       NULL,       1 << 2,       False,        1 },
-        { "Emacs",    "emacs",    NULL,       1 << 1,       False,        0 },
-        { "Emacs",    "ec_float", NULL,       0,            True,        -1 },
+        { "Emacs",    "emacs",    "GNU Emacs at", 1 << 1,   False,        0 },
+        { "Emacs",    "emacs",    "ec_float", 0,            True,        -1 },
         { "copyq",    NULL,       NULL,       0,            True,        -1 },
 };
 
