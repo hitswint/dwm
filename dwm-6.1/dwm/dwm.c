@@ -942,6 +942,9 @@ drawbar(Monitor *m)
         unsigned int i, occ = 0, urg = 0, n = 0, extra = 0;
         Client *c;
 
+	int spacew_sel, spacew;
+	unsigned int unsel_max, sel_max;
+
         dx = (drw->fonts[0]->ascent + drw->fonts[0]->descent + 2) / 4;
 
         resizebarwin(m);
@@ -982,8 +985,17 @@ drawbar(Monitor *m)
         if ((w = x - xx) > bh) {
                 x = xx;
                 if (n > 0) {
-                        tw = m->sel->name ? TEXTW(m->sel->name) + SPCW(m->sel) : 0;
-                        mw = (tw >= w || n == 1) ? 0 : (w - tw) / (n - 1);
+			spacew_sel = SPCW(m->sel);
+                        tw = m->sel->name ? TEXTW(m->sel->name) + spacew_sel : 0;
+			if (n==1)
+				mw = 0;
+			else
+				if (tw >= w-(n-1)*spacew_sel)
+					mw = spacew_sel;
+				else
+					mw = (w - tw) / (n - 1);
+
+                        /* mw = (tw >= w || n == 1) ? 0 : (w - tw) / (n - 1); */
 
                         i = 0;
                         for (c = m->clients; c; c = c->next) {
@@ -998,15 +1010,23 @@ drawbar(Monitor *m)
                         if (i > 0)
                                 mw += extra / i;
 
+			unsel_max = 0;
+                        for (c = m->clients; c; c = c->next) {
+                                if (!ISVISIBLE(c) || c == m->sel)
+                                        continue;
+                                tw = TEXTW(c->name) + SPCW(c);
+                                unsel_max += MIN(mw, tw);
+                        }
+			sel_max = w - unsel_max;
+
                         for (c = m->clients; c; c = c->next) {
                                 if (!ISVISIBLE(c))
                                         continue;
 
                                 xx = x + w;
                                 tw = TEXTW(c->name) + SPCW(c);
-                                w = MIN(m->sel == c ? w : mw, tw);
+                                w = MIN(m->sel == c ? MIN(w, sel_max) : mw, tw);
 
-				int spacew;
 				spacew = SPCW(c);
 				char spaces[spacew];
 				/* strcat(spaces, c->name); */
