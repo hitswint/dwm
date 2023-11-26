@@ -942,7 +942,7 @@ drawbar(Monitor *m)
         unsigned int i, occ = 0, urg = 0, n = 0, extra = 0;
         Client *c;
 
-	int spacew_sel, spacew;
+	unsigned int spacew_sel, spacew;
 	unsigned int unsel_max, sel_max;
 
         dx = (drw->fonts[0]->ascent + drw->fonts[0]->descent + 2) / 4;
@@ -985,8 +985,10 @@ drawbar(Monitor *m)
         if ((w = x - xx) > bh) {
                 x = xx;
                 if (n > 0) {
-			spacew_sel = SPCW(m->sel);
-                        tw = m->sel->name ? TEXTW(m->sel->name) + spacew_sel : 0;
+			/* 当把窗口从一个Monitor移动到另一个无窗口的Monitor时，程序崩溃 */
+			/* spacew_sel = SPCW(m->sel); */
+			spacew_sel = m->sel->name ? SPCW(m->sel) : 0;
+                        tw = m->sel->name ? TEXTW(m->sel->name) + SPCW(m->sel) : 0;
 			if (n==1)
 				mw = 0;
 			else
