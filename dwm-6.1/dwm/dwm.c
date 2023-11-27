@@ -1979,12 +1979,15 @@ sendmon(Client *c, Monitor *m)
         unfocus(c, 1);
         detach(c);
         detachstack(c);
+	arrange(c->mon);
         c->mon = m;
         c->tags = m->tagset[m->seltags]; /* assign tags of target monitor */
         attach(c);
         attachstack(c);
-        focus(NULL);
-        arrange(NULL);
+	/* focus(NULL); */
+	/* arrange(NULL); */
+	focus(c);
+	arrange(m);
 }
 
 void
