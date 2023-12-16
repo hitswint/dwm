@@ -2369,6 +2369,7 @@ tag(const Arg *arg)
                 focus(NULL);
                 arrange(selmon);
         }
+	view(arg);
 }
 
 void
@@ -3222,7 +3223,7 @@ pushstack_mon(const Arg *arg)
 {
         const Arg a = {.i = -1};
         tagmonsp(&a);
-        focusmonsp(&a);
+        /* focusmonsp(&a); */
         pushstack(arg);
 }
 
@@ -3247,7 +3248,7 @@ tag_mon(const Arg *arg)
 {
         const Arg a = {.i = -1};
         tagmonsp(&a);
-        focusmonsp(&a);
+        /* focusmonsp(&a); */
         tag(arg);
 }
 
@@ -3256,7 +3257,7 @@ toggletag_mon(const Arg *arg)
 {
         const Arg a = {.i = -1};
         tagmonsp(&a);
-        focusmonsp(&a);
+        /* focusmonsp(&a); */
         toggletag(arg);
 }
 
