@@ -166,10 +166,11 @@ static const char *ec_killringcmd[]  = { "ec_killring.sh", NULL };
 static const char *ec_ffbmkscmd[]    = { "ec_ffbmks.sh", NULL };
 static const char *ec_ffhistcmd[]    = { "ec_ffhist.sh", NULL };
 static const char *ec_editcmd[]      = { "external-edit", "-s", "-e", "emacsclient", NULL };
+static const char *zenitytextcmd[]   = { "zenity-text.sh", NULL };
+static const char *zenityeditcmd[]   = { "zenity-edit.sh", NULL };
 static const char *zenitytranscmd[]  = { "zenity-trans.sh", NULL };
 static const char *xclipcopycmd[]    = { "xclipcopy.sh", NULL };
 static const char *xclippastecmd[]   = { "xclippaste.sh", NULL };
-static const char *inputchinesecmd[] = { "inputchinese.sh", NULL };
 
 static Key keys[] = {
         /* modifier                      key             function         argument */
@@ -242,11 +243,12 @@ static Key keys[] = {
         { WINKEY,                        XK_t,            spawn,          {.v = thunarcmd } },
         { WINKEY,                        XK_g,            spawn,          {.v = fsearchcmd } },
         { WINKEY,                        XK_d,            spawn,          {.v = rofitranscmd } },
-        { WINKEY|ShiftMask,              XK_d,            spawn,          {.v = ec_dictcmd } },
-        { WINKEY|ControlMask,            XK_d,            spawn,          {.v = ec_examplecmd } },
-        { WINKEY,                        XK_e,            spawn,          {.v = inputchinesecmd } },
-        { WINKEY|ShiftMask,              XK_e,            spawn,          {.v = ec_editcmd } },
-        { WINKEY|ControlMask,            XK_e,            spawn,          {.v = zenitytranscmd } },
+        { WINKEY|ShiftMask,              XK_d,            spawn,          {.v = zenitytranscmd } },
+        { WINKEY|ControlMask,            XK_d,            spawn,          {.v = ec_dictcmd } },
+        { WINKEY|ControlMask|ShiftMask,  XK_d,            spawn,          {.v = ec_examplecmd } },
+        { WINKEY,                        XK_e,            spawn,          {.v = zenitytextcmd } },
+        { WINKEY|ShiftMask,              XK_e,            spawn,          {.v = zenityeditcmd } },
+        { WINKEY|ControlMask,            XK_e,            spawn,          {.v = ec_editcmd } },
         /* runorraise */
         /* 修改runorraise使其在不同屏幕间切换 */
         { MODKEY|ShiftMask,              XK_space,        spawn,          {.v = emacsclientcmd } },
