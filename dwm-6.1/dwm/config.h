@@ -153,6 +153,7 @@ static const char *mpdseekminuscmd[] = { "mpc", "seek", "-5%", NULL };
 static const char *mpdvolupcmd[]     = { "mpc", "volume", "+10", NULL };
 static const char *mpdvoldowncmd[]   = { "mpc", "volume", "-10", NULL };
 static const char *slockcmd[]        = { "slock", NULL };
+static const char *suspendcmd[]      = { "systemctl", "suspend", NULL };
 static const char *arecordasrcmd[]   = { "arecord_asr.sh", NULL };
 static const char *ssdesktopcmd[]    = { "screenshot.sh", "d", NULL };
 static const char *ssbordercmd[]     = { "screenshot.sh", "w", NULL };
@@ -225,6 +226,7 @@ static Key keys[] = {
         { WINKEY|ShiftMask,              XK_backslash,    setdirs,        {.v = (int[]){ DirVer, DirHor, DirHor } } },
         /* Cmd. */
         { WINKEY,                        XK_z,            spawn,          {.v = slockcmd } },
+        { WINKEY|ShiftMask,              XK_z,            spawn,          {.v = suspendcmd } },
         { WINKEY,                        XK_Return,       spawn,          {.v = termcmd } },
         { WINKEY|ShiftMask,              XK_Return,       togglescratch,  {.v = scratchpadcmd } },
         { WINKEY,                        XK_apostrophe,   spawn,          {.v = ec_ffbmkscmd } },
@@ -244,12 +246,13 @@ static Key keys[] = {
         { WINKEY,                        XK_x,            spawn,          {.v = rofisshcmd } },
         { WINKEY|ShiftMask,              XK_x,            spawn,          {.v = rofipasscmd } },
         { WINKEY,                        XK_c,            spawn,          {.v = roficalccmd } },
-        { WINKEY,                        XK_v,            spawn,          {.v = rofimountcmd } },
-        { WINKEY|ShiftMask,              XK_v,            spawn,          {.v = rofiumountcmd } },
+        { WINKEY,                        XK_m,            spawn,          {.v = rofimountcmd } },
+        { WINKEY|ShiftMask,              XK_m,            spawn,          {.v = rofiumountcmd } },
         { WINKEY,                        XK_n,            spawn,          {.v = keynavcmd } },
         { WINKEY,                        XK_t,            spawn,          {.v = thunarcmd } },
         { WINKEY,                        XK_g,            spawn,          {.v = fsearchcmd } },
-        { WINKEY,                        XK_p,            spawn,          {.v = powercmd } },
+        { WINKEY,                        XK_p,            spawn,          {.v = rofipowercmd } },
+        { WINKEY|ShiftMask,              XK_p,            spawn,          {.v = powercmd } },
         { WINKEY,                        XK_d,            spawn,          {.v = rofitranscmd } },
         { WINKEY|ShiftMask,              XK_d,            spawn,          {.v = zenitytranscmd } },
         { WINKEY|ControlMask,            XK_d,            spawn,          {.v = ec_dictcmd } },
@@ -262,9 +265,9 @@ static Key keys[] = {
         { MODKEY|ShiftMask,              XK_space,        spawn,          {.v = emacsclientcmd } },
         { WINKEY,                        XK_f,            runorraise,     {.v = firefoxcmd } },
         /* Maximize. */
-        { WINKEY,                        XK_m,            toggleverticalmax, {0} },
-        { WINKEY|ShiftMask,              XK_m,            togglehorizontalmax, {0} },
-        { WINKEY|ControlMask,            XK_m,            togglemaximize, {0} },
+        { WINKEY,                        XK_v,            toggleverticalmax, {0} },
+        { WINKEY|ShiftMask,              XK_v,            togglehorizontalmax, {0} },
+        { WINKEY|ControlMask,            XK_v,            togglemaximize, {0} },
         /* Moveresize. */
         { WINKEY,                        XK_k,            moveresize,     {.v = "0x -50y 0w 0h" } },
         { WINKEY,                        XK_j,            moveresize,     {.v = "0x 50y 0w 0h" } },
@@ -293,7 +296,7 @@ static Key keys[] = {
         { MODKEY,                        XK_F4,           killclient,     {0} },
         { WINKEY,                        XK_q,            killclient,     {0} },
         { WINKEY|ShiftMask,              XK_q,            killunsel,      {0} },
-        { WINKEY|ControlMask,            XK_q,            spawn,          {.v = rofipowercmd } },
+        { WINKEY|ControlMask,            XK_q,            killall,        {0} },
         { WINKEY|ControlMask|ShiftMask,  XK_q,            quit,           {0} },
         { MODKEY,                        XK_7,            view,           {.ui = ~0 } },
         { MODKEY|ShiftMask,              XK_7,            tag,            {.ui = ~0 } },
