@@ -206,8 +206,8 @@ static Key keys[] = {
         { WINKEY|ControlMask,            XK_space,        setlayout,      {.v = &layouts[0] } },
         { WINKEY|ShiftMask,              XK_space,        setlayout,      {.v = &layouts[1] } },
         { WINKEY|ControlMask|ShiftMask,  XK_space,        setlayout,      {.v = &layouts[2] } },
-        { WINKEY,                        XK_v,            setlayout,      {.v = &layouts[3]} },
-        { WINKEY|ShiftMask,              XK_v,            setlayout,      {.v = &layouts[4]} },
+        { WINKEY|MODKEY,                 XK_space,        setlayout,      {.v = &layouts[3]} },
+        { WINKEY|MODKEY|ShiftMask,       XK_space,        setlayout,      {.v = &layouts[4]} },
         { MODKEY|ControlMask,            XK_space,        togglefloating, {0} },
         { WINKEY|ControlMask,            XK_minus,        incnmaster,     {.i = -1 } },
         { WINKEY|ControlMask,            XK_equal,        incnmaster,     {.i = +1 } },
@@ -239,8 +239,8 @@ static Key keys[] = {
         { WINKEY|ShiftMask,              XK_y,            spawn,          {.v = ec_killringcmd } },
         { WINKEY|ControlMask,            XK_y,            spawn,          {.v = xclippastecmd } },
         { WINKEY,                        XK_x,            spawn,          {.v = rofisshcmd } },
+        { WINKEY|ShiftMask,              XK_p,            spawn,          {.v = rofipasscmd } },
         { WINKEY,                        XK_c,            spawn,          {.v = roficalccmd } },
-        { WINKEY,                        XK_p,            spawn,          {.v = rofipasscmd } },
         { WINKEY,                        XK_n,            spawn,          {.v = keynavcmd } },
         { WINKEY,                        XK_t,            spawn,          {.v = thunarcmd } },
         { WINKEY,                        XK_g,            spawn,          {.v = fsearchcmd } },
@@ -260,18 +260,18 @@ static Key keys[] = {
         { WINKEY|ShiftMask,              XK_m,            togglehorizontalmax, {0} },
         { WINKEY|ControlMask,            XK_m,            togglemaximize, {0} },
         /* Moveresize. */
-        { WINKEY|ControlMask,            XK_k,            moveresize,     {.v = "0x -50y 0w 0h" } },
-        { WINKEY|ControlMask,            XK_j,            moveresize,     {.v = "0x 50y 0w 0h" } },
-        { WINKEY|ControlMask,            XK_h,            moveresize,     {.v = "-50x 0y 0w 0h" } },
-        { WINKEY|ControlMask,            XK_l,            moveresize,     {.v = "50x 0y 0w 0h" } },
+        { WINKEY,                        XK_k,            moveresize,     {.v = "0x -50y 0w 0h" } },
+        { WINKEY,                        XK_j,            moveresize,     {.v = "0x 50y 0w 0h" } },
+        { WINKEY,                        XK_h,            moveresize,     {.v = "-50x 0y 0w 0h" } },
+        { WINKEY,                        XK_l,            moveresize,     {.v = "50x 0y 0w 0h" } },
         { WINKEY|ShiftMask,              XK_k,            moveresize,     {.v = "0x 0y 0w -50h" } },
         { WINKEY|ShiftMask,              XK_j,            moveresize,     {.v = "0x 0y 0w 50h" } },
         { WINKEY|ShiftMask,              XK_h,            moveresize,     {.v = "0x 0y -50w 0h" } },
         { WINKEY|ShiftMask,              XK_l,            moveresize,     {.v = "0x 0y 50w 0h" } },
-        { WINKEY|ControlMask|ShiftMask,  XK_k,            explace,        {.ui = EX_N } },
-        { WINKEY|ControlMask|ShiftMask,  XK_j,            explace,        {.ui = EX_S } },
-        { WINKEY|ControlMask|ShiftMask,  XK_h,            explace,        {.ui = EX_W } },
-        { WINKEY|ControlMask|ShiftMask,  XK_l,            explace,        {.ui = EX_E } },
+        /* { WINKEY|ControlMask|ShiftMask,  XK_k,            explace,        {.ui = EX_N } }, */
+        /* { WINKEY|ControlMask|ShiftMask,  XK_j,            explace,        {.ui = EX_S } }, */
+        /* { WINKEY|ControlMask|ShiftMask,  XK_h,            explace,        {.ui = EX_W } }, */
+        /* { WINKEY|ControlMask|ShiftMask,  XK_l,            explace,        {.ui = EX_E } }, */
         /* Exresize. */
         { WINKEY,                        XK_bracketleft,  exresize,       {.v = (int []){ -50,   0 } } },
         { WINKEY,                        XK_bracketright, exresize,       {.v = (int []){  50,   0 } } },
@@ -336,13 +336,13 @@ static Key keys[] = {
         { ShiftMask,                     0x1008FF16,      spawn,          {.v = mpdprevcmd } },
         { ShiftMask,                     0x1008FF17,      spawn,          {.v = mpdnextcmd } },
         /* Mouse */
-        { WINKEY,                        XK_h,            spawn,          SHCMD("exec xdotool mousemove_relative -- -20 0" ) },
-        { WINKEY,                        XK_l,            spawn,          SHCMD("exec xdotool mousemove_relative 20 0" ) },
-        { WINKEY,                        XK_k,            spawn,          SHCMD("exec xdotool mousemove_relative -- 0 -20" ) },
-        { WINKEY,                        XK_j,            spawn,          SHCMD("exec xdotool mousemove_relative 0 20" ) },
-        { WINKEY,                        XK_u,            spawn,          SHCMD("exec xdotool sleep 0.500 click --clearmodifiers 1" ) },
-        { WINKEY,                        XK_i,            spawn,          SHCMD("exec xdotool sleep 0.500 click --clearmodifiers 2" ) },
-        { WINKEY,                        XK_o,            spawn,          SHCMD("exec xdotool sleep 0.500 click --clearmodifiers 3" ) },
+        { WINKEY|ControlMask,            XK_h,            spawn,          SHCMD("exec xdotool mousemove_relative -- -20 0" ) },
+        { WINKEY|ControlMask,            XK_l,            spawn,          SHCMD("exec xdotool mousemove_relative 20 0" ) },
+        { WINKEY|ControlMask,            XK_k,            spawn,          SHCMD("exec xdotool mousemove_relative -- 0 -20" ) },
+        { WINKEY|ControlMask,            XK_j,            spawn,          SHCMD("exec xdotool mousemove_relative 0 20" ) },
+        { WINKEY|ControlMask,            XK_u,            spawn,          SHCMD("exec xdotool sleep 0.500 click --clearmodifiers 1" ) },
+        { WINKEY|ControlMask,            XK_i,            spawn,          SHCMD("exec xdotool sleep 0.500 click --clearmodifiers 2" ) },
+        { WINKEY|ControlMask,            XK_o,            spawn,          SHCMD("exec xdotool sleep 0.500 click --clearmodifiers 3" ) },
 };
 
 /* button definitions */
