@@ -210,8 +210,8 @@ static Key keys[] = {
         { WINKEY|ControlMask,            XK_space,        setlayout,      {.v = &layouts[0] } },
         { WINKEY|ShiftMask,              XK_space,        setlayout,      {.v = &layouts[1] } },
         { WINKEY|ControlMask|ShiftMask,  XK_space,        setlayout,      {.v = &layouts[2] } },
-        { WINKEY|MODKEY,                 XK_space,        setlayout,      {.v = &layouts[3]} },
-        { WINKEY|MODKEY|ShiftMask,       XK_space,        setlayout,      {.v = &layouts[4]} },
+        { WINKEY,                        XK_v,            setlayout,      {.v = &layouts[3]} },
+        { WINKEY|ShiftMask,              XK_v,            setlayout,      {.v = &layouts[4]} },
         { MODKEY|ControlMask,            XK_space,        togglefloating, {0} },
         { WINKEY|ControlMask,            XK_minus,        incnmaster,     {.i = -1 } },
         { WINKEY|ControlMask,            XK_equal,        incnmaster,     {.i = +1 } },
@@ -265,9 +265,9 @@ static Key keys[] = {
         { MODKEY|ShiftMask,              XK_space,        spawn,          {.v = emacsclientcmd } },
         { WINKEY,                        XK_f,            runorraise,     {.v = firefoxcmd } },
         /* Maximize. */
-        { WINKEY,                        XK_v,            toggleverticalmax, {0} },
-        { WINKEY|ShiftMask,              XK_v,            togglehorizontalmax, {0} },
-        { WINKEY|ControlMask,            XK_v,            togglemaximize, {0} },
+        { WINKEY|ControlMask,            XK_bracketleft,  toggleverticalmax, {0} },
+        { WINKEY|ControlMask,            XK_bracketright, togglehorizontalmax, {0} },
+        { WINKEY|ControlMask,            XK_backslash,    togglemaximize, {0} },
         /* Moveresize. */
         { WINKEY,                        XK_k,            moveresize,     {.v = "0x -50y 0w 0h" } },
         { WINKEY,                        XK_j,            moveresize,     {.v = "0x 50y 0w 0h" } },
@@ -282,10 +282,10 @@ static Key keys[] = {
         { WINKEY|MODKEY,                 XK_h,            explace,        {.ui = EX_W } },
         { WINKEY|MODKEY,                 XK_l,            explace,        {.ui = EX_E } },
         /* Exresize. */
-        { WINKEY,                        XK_bracketleft,  exresize,       {.v = (int []){ -50,   0 } } },
-        { WINKEY,                        XK_bracketright, exresize,       {.v = (int []){  50,   0 } } },
+        { WINKEY,                        XK_bracketleft,  exresize,       {.v = (int []){   0,  50 } } },
         { WINKEY|ShiftMask,              XK_bracketleft,  exresize,       {.v = (int []){   0, -50 } } },
-        { WINKEY|ShiftMask,              XK_bracketright, exresize,       {.v = (int []){   0,  50 } } },
+        { WINKEY,                        XK_bracketright, exresize,       {.v = (int []){  50,   0 } } },
+        { WINKEY|ShiftMask,              XK_bracketright, exresize,       {.v = (int []){ -50,   0 } } },
         /* Mark. */
         { WINKEY,                        XK_semicolon,    swapfocus,      {0} },
         { WINKEY|ShiftMask,              XK_semicolon,    swapclient,     {0} },
