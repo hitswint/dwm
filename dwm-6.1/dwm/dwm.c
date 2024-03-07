@@ -2133,9 +2133,14 @@ setfullscreen(Client *c, int fullscreen)
 void
 setlayout(const Arg *arg)
 {
-        if (!arg || !arg->v || arg->v != selmon->lt[selmon->sellt])
+	Layout *foo;
+	foo = selmon->lt[selmon->sellt];
+
+        /* if (!arg || !arg->v || arg->v != selmon->lt[selmon->sellt]) */
+        if (!arg || !arg->v || arg->v)
                 selmon->sellt = selmon->pertag->sellts[selmon->pertag->curtag] ^= 1;
-        if (arg && arg->v)
+        /* if (arg && arg->v) */
+        if (arg && arg->v && arg->v != foo)
                 selmon->lt[selmon->sellt] = selmon->pertag->ltidxs[selmon->pertag->curtag][selmon->sellt] = (Layout *)arg->v;
         strncpy(selmon->ltsymbol, selmon->lt[selmon->sellt]->symbol, sizeof selmon->ltsymbol);
         if (selmon->sel)
