@@ -45,6 +45,7 @@ static const Rule rules[] = {
         { "Emacs",    "emacs",    "GNU Emacs at", 1 << 1,   False,        0 },
         { "Emacs",    "emacs",    "ec_float", 0,            True,        -1 },
         { "copyq",    NULL,       NULL,       0,            True,        -1 },
+        { "Zotero",   "Alert",    NULL,       0,            True,        -1 },
 };
 
 /* layout(s) */
