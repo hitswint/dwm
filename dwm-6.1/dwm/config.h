@@ -168,7 +168,7 @@ static const char *ssselectcmd[]        = { "screenshot.sh", "s", NULL };
 static const char *ssocrtcmd[]          = { "screenshot_ocr.sh", "t", NULL };
 static const char *ssocrpcmd[]          = { "screenshot_ocr.sh", "p", NULL };
 static const char *ssocrlcmd[]          = { "screenshot_ocr.sh", "l", NULL };
-static const char *emacsclientcmd[]     = { "run-or-raise.sh", "emacs", "ec.sh", NULL };
+static const char *emacsclientcmd[]     = { "run-or-raise.sh", "emacs", "env LC_CTYPE=zh_CN.UTF-8 XMODIFIERS=@im=fcitx emacs", NULL };
 static const char *firefoxcmd[]         = { "firefox", NULL, NULL, NULL, "firefox" };
 static const char *switchcmd[]          = { "switcher", NULL };
 static const char *ec_dictcmd[]         = { "ec_dict.sh", NULL };
